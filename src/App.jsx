@@ -90,9 +90,11 @@ const HEADER_OPTIONS = {
     client: ["HAL / Mace","HAL","Mace","AtkinsRéalis"],
     representative: [
         "Benny Bance",
-        "Ben Taylor",
-        "James Wilson",
-        "Mark Stevens"
+        "Sean O'Connor",
+        "Dan Sandu",
+        "Mirel Caba",
+        "Sandel Dumitrascu",
+        "Catalin Popa"
     ],
     inspectionBy: [
         "Peter Murphy",
