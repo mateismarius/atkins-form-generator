@@ -62,13 +62,56 @@ function useTheme() {
 }
 
 const HEADER_OPTIONS = {
-  project: ["T2A Security Programme - Phase 6","T2A Security Programme - Phase 5","T2A CSA & Acid Security Lase Project","T2 Baggage Project","T5 Refurbishment Works","CTA Upgrade Programme"],
-  activity: ["Installation of CCTV assets including testing","Running in Cat6 cabling to service trench and terminations within SCR","Installation of Access Control equipment","Cable containment installation","Equipment decommissioning and removal","Testing and commissioning","General site inspection"],
-  location: ["T2A Phase 6 Site / Fast Track / QAS / BoH / ATP Gates","T2A Phase 5 Site","T2A CSA Phase 6 Fast Track","T2A Departures","T2A Arrivals","T2A Back of House","T2A SCR (Security Control Room)","T5 Main Terminal"],
-  client: ["HAL / Mace","HAL","Mace","AtkinsRéalis"],
-  representative: ["Benny Bance","Ben Taylor","James Wilson","Mark Stevens"],
-  inspectionBy: ["Peter Murphy","Tim Finch","Gracious Chukwu"],
-  contractor: ["Computacenter","Wilson James","Target Fire","Mace"]
+  project: [
+      "T2A Security Programme - Phase 6",
+      "T2A Security Programme - Phase 5",
+      "T2A CSA",
+      "T2 Baggage Project",
+      "T5 Refurbishment Works",
+      "CTA Upgrade Programme"
+  ],
+  activity: [
+      "Installation of CCTV assets including testing",
+      "Running in Cat6 cabling to service trench and terminations within SCR",
+      "Installation of Access Control equipment",
+      "Cable containment installation",
+      "Equipment decommissioning and removal",
+      "Testing and commissioning",
+      "General site inspection"
+  ],
+  location: [
+      "T2A Phase 6 Site / Fast Track / QAS / BoH / ATP Gates",
+      "T2A Phase 5 Site","T2A CSA Phase 6 Fast Track",
+      "T2A Departures","T2A Arrivals",
+      "T2A Back of House",
+      "T2A SCR (Security Control Room)",
+      "T5 Main Terminal"
+  ],
+  client: [
+      "HAL / Mace",
+      "HAL","Mace",
+      "AtkinsRéalis"
+  ],
+  representative: [
+      "Benny Bance",
+      "Sean O'Connor",
+      "Dan Sandu",
+      "Marcel Mary"
+  ],
+  inspectionBy: [
+      "Peter Murphy",
+      "Fred Tebbenham",
+      "Jacob McCalla-Bedward",
+      "Mat Godwin",
+      "Marius Matei",
+  ],
+  contractor: [
+      "Computacenter",
+      "Maber",
+      "Sword Services",
+      "Contour",
+      "Projective Consulting"
+  ]
 };
 
 const YES_COMMENTS = {
