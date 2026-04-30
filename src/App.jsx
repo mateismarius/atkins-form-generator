@@ -113,50 +113,90 @@ const HEADER_OPTIONS = {
 };
 
 const YES_COMMENTS = {
-    "0.01":["None advised.","All previous actions closed out.","Previous actions reviewed and addressed."],
-    "1.01":["PPE was being worn with HAL Airside Passes. CSCS Cards were all checked and valid.","All ID and competence cards checked and in date.","Airside passes and CSCS cards verified."],
-    "1.02":["Updated revision of Method Statement held by supervisor on site and signed on by all engineers. Checked.","Method statement available on site and briefed to team.","Latest revision of RAMS held by Supervisor. Checked."],
-    "1.03":["Works being carried out detailed within latest revision of RAMS. Checked.","Risk assessments cover all activities. Controls suitable and sufficient.","RAMS reviewed - all controls implemented."],
-    "1.04":["Site team signed on to latest revision of RAMS, held by Supervisor. Checked.","Briefing records available and up to date.","All operatives signed onto RAMS. NABs briefing record checked."],
-    "1.05":["Provided by Mace. WAN activation confirmed nightly to CC Supervisor and AR CM.","All permits in place and valid.","Permits checked and verified with Mace."],
-    "2.01":["Pop-Up in use at time of inspection.","Scaffold / podium in use and inspected.","Access equipment in use, tagged and in date.","Ladders in use - inspected and suitable."],
-    "2.02":["Barriers in place around access equipment.","Exclusion zones established below work at height.","Netting / barriers in place to protect from falling materials."],
-    "2.03":["No Lifting Operations being undertaken.","Lifting plan in place. Equipment inspected and in date."],
-    "2.04":["Awareness of 'Live' services in site footprint with protection placed over and signage displayed.","Services identified and marked. Protection in place.","CAT scan completed. Services identified and protected."],
-    "2.05":["None currently.","Manual handling being undertaken with correct technique.","Mechanical aids in use where required."],
-    "2.06":["Not applicable to these works.","COSHH assessments in place. Materials stored correctly.","All containers secured and labelled."],
-    "2.07":["Not in use. Hand tools only being used.","Electrical equipment PAT tested and in date.","RCD protection in use."],
-    "2.08":["Not in use. Hand tools only being used.","All portable appliances tested and in date.","PAT test labels checked and valid."],
-    "2.09":["All in good working order. Suitable & checked.","Tools inspected and in good condition.","Hand tools suitable for task and well maintained."],
-    "2.10":["Not applicable to these works.","Vibration risk assessment in place. Exposure monitored.","HAV assessment completed."],
-    "2.11":["Works within the main Terminal and site is fully hoarded off and secure.","Boundary fencing intact. Access gates secure.","Site perimeter checked and secure."],
-    "2.12":["Site Safety Notice Boards are on site displaying all relevant information.","Safety signage displayed throughout worksite.","All required signs and notices in place."],
-    "2.13":["Provided by Mace. LSS permit activations confirmed nightly to CC Supervisor and AR CM.","LSS isolations in place and confirmed.","Sprinkler system isolations in place with Target Fire. Confirmed."],
-    "3.01":["Toilets available within Terminal Building. Contractors facilities also available. Sufficient and clean.","Welfare facilities adequate and maintained.","Toilets and welfare suitable. Facilities clean."],
-    "3.02":["Site team all inducted by Mace and aware of emergency arrangements. Also detailed within RAMS.","Emergency procedures briefed to all operatives.","Emergency arrangements defined in RAMS and site induction."],
-    "3.03":["First Aider amongst site team. First aid kits available within Mace sites.","First aid provision suitable and sufficient.","Trained first aider on site. Kits checked and stocked."],
-    "3.04":["All operatives were observed wearing 5 Points PPE at time of site inspection.","Full PPE being worn by all operatives.","PPE compliance observed - zero tolerance enforced."],
-    "3.04a":["Hard hats worn by all operatives.","Checked and compliant."],
-    "3.04b":["Hi-vis vests/jackets worn by all operatives.","Checked and compliant."],
-    "3.04c":["Safety glasses worn by all operatives.","Checked and compliant."],
-    "3.04d":["Correct gloves for task being worn.","Checked and compliant."],
-    "3.04e":["Safety footwear worn by all operatives.","Checked and compliant."],
-    "3.04f":["No task-specific PPE required.","Task-specific PPE in use where required."],
-    "4.01":["Site team all inducted and aware of emergency procedures.","All staff aware of evacuation procedure and assembly point.","Covered in Mace induction and RAMS."],
-    "4.02":["Site team all inducted and aware of emergency phone numbers.","Emergency contact details displayed and briefed.","Detailed within RAMS and Mace Site Induction."],
-    "4.03":["Fire points available within Mace sites and throughout Terminal facilities.","Fire points accessible in vicinity of worksite.","Fire extinguishers available and accessible."],
-    
-    "4.04":["Good access and egress with clear routes available.","Escape routes clear and unobstructed.","All routes checked and clear."],
-    "4.05":["Emergency Exits clearly signed throughout site and Terminal building.","Escape route signage clear and visible.","Exit signs posted and illuminated."],
-    "5.01":["Housekeeping within the site remains to a good standard.","Site free of excessive dust.","Good housekeeping maintained."],
-    "5.02":["Lighting levels are good throughout. Temporary lighting installed within Mace sites.","Lighting adequate for all work areas.","Good lighting levels throughout."],
-    "5.03":["Housekeeping across sites remains to a good standard. Stores well maintained.","Site tidy and well organised.","Storage areas maintained and tidy."],
-    "6.01":["Working in line with AtkinsRéalis and HAL standards. Reports & photos provided nightly.","Equipment installed to agreed standards.","Installation quality checked and acceptable."],
-    "6.02":["Ongoing as part of works. Reports sent to AR Project Team nightly.","Checklists available and correctly completed.","Documentation up to date and complete."],
-    "7.01":["None currently.","No additional recommendations at this time."]
+    "0.01":["None advised.","All previous actions closed out.","Previous actions reviewed and addressed.","Actions from last PGI reviewed and signed off.","No outstanding actions from previous inspections."],
+    "1.01":["PPE was being worn with HAL Airside Passes. CSCS Cards were all checked and valid.","All ID and competence cards checked and in date.","Airside passes and CSCS cards verified.","All operatives carrying valid CSCS cards and HAL Airside Passes.","Company ID badges displayed. CSCS and Airside Passes all in date.","Competence cards checked for all trades on site. All valid."],
+    "1.02":["Updated revision of Method Statement held by supervisor on site and signed on by all engineers. Checked.","Method statement available on site and briefed to team.","Latest revision of RAMS held by Supervisor. Checked.","Current RAMS on site, signed by all operatives. Reviewed and suitable.","Method Statement reviewed and appropriate for works being undertaken.","Supervisor holding latest revision. All personnel signed on."],
+    "1.03":["Works being carried out detailed within latest revision of RAMS. Checked.","Risk assessments cover all activities. Controls suitable and sufficient.","RAMS reviewed - all controls implemented.","Dynamic risk assessments being carried out alongside generic RAMS.","All activities observed are covered within current RAMS. Controls adequate.","Risk assessments reviewed for night shift operations. All controls in place."],
+    "1.04":["Site team signed on to latest revision of RAMS, held by Supervisor. Checked.","Briefing records available and up to date.","All operatives signed onto RAMS. NABs briefing record checked.","RAMS briefing attendance sheet checked - all personnel signed.","Nightly briefing records maintained by Supervisor. All team members signed on.","Toolbox talk records also available. Briefing register up to date."],
+    "1.05":["Provided by Mace. WAN activation confirmed nightly to CC Supervisor and AR CM.","All permits in place and valid.","Permits checked and verified with Mace.","Hot work permit in place and conditions met.","All required permits obtained before works commenced.","Permit to work system managed by Mace. Verified active for tonight's scope.","Confined space permit checked where applicable. All conditions met."],
+    "2.01":["Pop-Up in use at time of inspection.","Scaffold / podium in use and inspected.","Access equipment in use, tagged and in date.","Ladders in use - inspected and suitable.","MEWP / scissor lift in use. Operator trained and certified.","Step ladders in use. Correct height for task. Class 1 industrial.","Zarges tower in use. Erected by competent person. Tag on.","Mobile scaffold inspected and tagged. Guard rails in place."],
+    "2.02":["Barriers in place around access equipment.","Exclusion zones established below work at height.","Netting / barriers in place to protect from falling materials.","Chapter 8 barriers deployed around work area.","Heras fencing around overhead works area.","Operatives using tool lanyards to prevent dropped objects.","Hard hats being worn in areas below overhead works."],
+    "2.03":["No Lifting Operations being undertaken.","Lifting plan in place. Equipment inspected and in date.","Lift supervisor appointed. All equipment within test dates.","Minor lifting operations using suitable SWL rated equipment."],
+    "2.04":["Awareness of 'Live' services in site footprint with protection placed over and signage displayed.","Services identified and marked. Protection in place.","CAT scan completed. Services identified and protected.","Live services clearly marked on floor/walls. Protection boards in place.","Service drawings reviewed before works. All services located and protected.","Warning signage present at all locations with live services.","Utility drawings available on site. No conflict with current works."],
+    "2.05":["None currently.","Manual handling being undertaken with correct technique.","Mechanical aids in use where required.","Trolleys and sack trucks used for material movement.","Team lifting observed for heavier items. Good technique.","Manual handling assessments completed for heavy/bulky items."],
+    "2.06":["Not applicable to these works.","COSHH assessments in place. Materials stored correctly.","All containers secured and labelled.","COSHH data sheets available on site for all substances in use.","Minimal COSHH substances in use. All correctly stored and labelled."],
+    "2.07":["Not in use. Hand tools only being used.","Electrical equipment PAT tested and in date.","RCD protection in use.","All power tools PAT tested with valid labels.","110V transformer in use with RCD protection.","Battery-powered tools only being used."],
+    "2.08":["Not in use. Hand tools only being used.","All portable appliances tested and in date.","PAT test labels checked and valid.","All electrical equipment within PAT test dates.","Battery tools and chargers all tested and labelled.","Extension leads checked - PAT tested and in date."],
+    "2.09":["All in good working order. Suitable & checked.","Tools inspected and in good condition.","Hand tools suitable for task and well maintained.","Crimping tools calibrated and within date.","Cable cutters, strippers and hand tools all in good condition.","All tools inspected before use. No defects noted."],
+    "2.10":["Not applicable to these works.","Vibration risk assessment in place. Exposure monitored.","HAV assessment completed.","No vibration-generating tools in use.","Vibration exposure monitored through HAVS assessment."],
+    "2.11":["Works within the main Terminal and site is fully hoarded off and secure.","Boundary fencing intact. Access gates secure.","Site perimeter checked and secure.","Hoarding panels secure and intact around work area.","Access controlled via Mace gate security. All personnel signed in.","Site fully enclosed with hoarding. No unauthorised access possible.","Temporary hoarding checked - stable, secure, and correctly positioned."],
+    "2.12":["Site Safety Notice Boards are on site displaying all relevant information.","Safety signage displayed throughout worksite.","All required signs and notices in place.","H&S notice board updated with current project information.","Warning signs, mandatory PPE signs, and fire exits all clearly displayed.","Prohibition and mandatory signage displayed at site entrance.","Site rules clearly posted. Emergency information visible."],
+    "2.13":["Provided by Mace. LSS permit activations confirmed nightly to CC Supervisor and AR CM.","LSS isolations in place and confirmed.","Sprinkler system isolations in place with Target Fire. Confirmed.","Fire alarm and sprinkler isolations managed by Mace and Target Fire.","LSS isolation permits checked and signed. Reinstatement times confirmed.","All life safety system isolations logged and acknowledged by all parties.","Smoke detector isolations in place for dust-generating works. Target Fire informed."],
+    "3.01":["Toilets available within Terminal Building. Contractors facilities also available. Sufficient and clean.","Welfare facilities adequate and maintained.","Toilets and welfare suitable. Facilities clean.","Welfare at Boiler House and KAD Buildings available and clean.","Drinking water, hand washing, and toilet facilities all accessible.","Welfare facilities checked - clean, stocked, and suitable for number of operatives."],
+    "3.02":["Site team all inducted by Mace and aware of emergency arrangements. Also detailed within RAMS.","Emergency procedures briefed to all operatives.","Emergency arrangements defined in RAMS and site induction.","Emergency evacuation plan displayed on site notice board.","All personnel inducted and aware of assembly point locations.","Emergency arrangements reviewed as part of nightly briefing."],
+    "3.03":["First Aider amongst site team. First aid kits available within Mace sites.","First aid provision suitable and sufficient.","Trained first aider on site. Kits checked and stocked.","AtkinsRéalis CM also First Aid trained and present on site.","First aid kits inspected - fully stocked and within date.","Nearest first aid point identified and communicated to team.","Multiple first aiders available across night shift teams."],
+    "3.04":["All operatives were observed wearing 5 Points PPE at time of site inspection.","Full PPE being worn by all operatives.","PPE compliance observed - zero tolerance enforced.","Mace zero tolerance PPE policy being adhered to across all sites.","All 5 Points PPE worn correctly. No non-compliance observed.","PPE standards reinforced during nightly briefing. All compliant."],
+    "3.04a":["Hard hats worn by all operatives.","Checked and compliant.","All hard hats in good condition with chin straps available."],
+    "3.04b":["Hi-vis vests/jackets worn by all operatives.","Checked and compliant.","Hi-vis vests/jackets clean and reflective strips visible."],
+    "3.04c":["Safety glasses worn by all operatives.","Checked and compliant.","Safety glasses worn. Prescription safety glasses where required."],
+    "3.04d":["Correct gloves for task being worn.","Checked and compliant.","Cut-resistant gloves used for cable pulling. Suitable for task."],
+    "3.04e":["Safety footwear worn by all operatives.","Checked and compliant.","Steel toe-cap boots worn by all. Good condition."],
+    "3.04f":["No task-specific PPE required.","Task-specific PPE in use where required.","Hearing protection used where noise levels require.","Dust masks available and used during dusty operations.","Face shields used during specific operations."],
+    "4.01":["Site team all inducted and aware of emergency procedures.","All staff aware of evacuation procedure and assembly point.","Covered in Mace induction and RAMS.","Emergency procedures reviewed during nightly briefing.","All operatives know location of nearest fire exit and assembly point.","Evacuation drill procedures understood by all team members."],
+    "4.02":["Site team all inducted and aware of emergency phone numbers.","Emergency contact details displayed and briefed.","Detailed within RAMS and Mace Site Induction.","Emergency numbers displayed on site notice boards and in RAMS.","All operatives carry emergency contact card.","999/HAL Emergency number known by all team members."],
+    "4.03":["Fire points available within Mace sites and throughout Terminal facilities.","Fire points accessible in vicinity of worksite.","Fire extinguishers available and accessible.","Nearest fire point identified and communicated to team.","Fire extinguisher locations checked - all accessible and unobstructed.","Fire extinguishers within test dates. Signage clear."],
+    "4.04":["Good access and egress with clear routes available.","Escape routes clear and unobstructed.","All routes checked and clear.","All escape routes inspected. No obstructions found.","Emergency exit routes clearly marked and free from materials/debris.","Escape route lighting working and adequate."],
+    "4.05":["Emergency Exits clearly signed throughout site and Terminal building.","Escape route signage clear and visible.","Exit signs posted and illuminated.","All emergency exit signs illuminated and visible.","Directional signage leading to exits checked and confirmed.","No temporary works obstructing emergency exit signage."],
+    "5.01":["Housekeeping within the site remains to a good standard.","Site free of excessive dust.","Good housekeeping maintained.","Dust suppression measures in place where required.","Work areas cleaned during and after operations.","No excessive dust or debris observed. Good standard maintained."],
+    "5.02":["Lighting levels are good throughout. Temporary lighting installed within Mace sites.","Lighting adequate for all work areas.","Good lighting levels throughout.","Temporary task lighting in place for detailed work.","All work areas well lit. No dark spots identified.","Emergency lighting tested and operational."],
+    "5.03":["Housekeeping across sites remains to a good standard. Stores well maintained.","Site tidy and well organised.","Storage areas maintained and tidy.","Materials stored neatly and away from walkways.","Waste segregated correctly. Skips not overfilled.","Cable drums, fixings, and tools all stored tidily when not in use.","Work area left clean and tidy at end of shift."],
+    "6.01":["Working in line with AtkinsRéalis and HAL standards. Reports & photos provided nightly.","Equipment installed to agreed standards.","Installation quality checked and acceptable.","Installation quality meets HAL specification requirements.","Works inspected and compliant with design drawings.","All installations documented with photographic evidence.","Quality checks completed by supervisor before sign-off."],
+    "6.02":["Ongoing as part of works. Reports sent to AR Project Team nightly.","Checklists available and correctly completed.","Documentation up to date and complete.","Nightly reports compiled with photos and submitted to AR Project Team.","Installation checklists being completed as works progress.","All QA documentation maintained and available for review.","Test results recorded and filed correctly."],
+    "7.01":["None currently.","No additional recommendations at this time.","No recommendations - team working safely and to good standard.","All recommendations from previous inspections have been implemented."]
 };
 
-const NA_COMMENTS = {"0.01":"None advised.","2.03":"No Lifting Operations being undertaken.","2.05":"None currently.","2.06":"Not applicable to these works.","2.07":"Not in use. Hand tools only being used.","2.08":"Not in use. Hand tools only being used.","2.10":"Not applicable to these works.","3.04f":"Not applicable."};
+const NA_COMMENTS = {
+    "0.01":["None advised.","No previous actions to review.","First inspection - no prior actions."],
+    "1.01":["Not applicable.","No operatives on site at time of inspection.","Checked on previous inspection - no change in personnel."],
+    "1.02":["Not applicable.","Method statement not required for current activities.","Survey/observation only."],
+    "1.03":["Not applicable.","No active works at time of inspection.","Risk assessments not required for current activity."],
+    "1.04":["Not applicable.","No briefing required for current activities.","Records checked on previous inspection."],
+    "1.05":["No permits required for current works.","Works do not require hot work, confined space or HV permits.","Permit not applicable to current scope of works."],
+    "2.01":["No scaffold, access equipment or ladders in use.","Works at ground level only.","No work at height being undertaken."],
+    "2.02":["No overhead works being carried out.","No risk of falling materials.","Works at ground level only."],
+    "2.03":["No Lifting Operations being undertaken.","No lifting equipment on site.","No mechanical lifting required for current scope."],
+    "2.04":["No live services in the work area.","No services affected by current works.","Services not present in current work location."],
+    "2.05":["None currently.","No manual or mechanised handling taking place.","No heavy materials being moved."],
+    "2.06":["Not applicable to these works.","No COSHH substances in use.","No hazardous materials on site."],
+    "2.07":["Not in use. Hand tools only being used.","No electrical plant on site.","Battery-powered tools only."],
+    "2.08":["Not in use. Hand tools only being used.","No portable electrical appliances in use.","Battery tools only - no mains-powered appliances."],
+    "2.09":["Not applicable.","No small tools in use at time of inspection.","No hand tools required for current activities."],
+    "2.10":["Not applicable to these works.","No vibration-generating equipment in use.","No tools generating HAV in use."],
+    "2.11":["Not applicable.","Works not near site boundary or access gates.","No infrastructure at risk from current works."],
+    "2.12":["Not applicable.","Signage not required for current activities.","Covered under Mace site management."],
+    "2.13":["No LSS isolations required for current works.","Works do not impact life safety systems.","No fire alarm or sprinkler isolations needed."],
+    "3.01":["Not applicable.","Welfare not assessed during this inspection."],
+    "3.02":["Not applicable.","Emergency arrangements not assessed during this inspection."],
+    "3.03":["Not applicable.","First aid not assessed during this inspection."],
+    "3.04":["Not applicable.","PPE assessment not carried out during this inspection."],
+    "3.04a":["Not applicable.","Hard hat not required in current work area."],
+    "3.04b":["Not applicable.","Hi-vis not required in current work area."],
+    "3.04c":["Not applicable.","Safety glasses not required for current task."],
+    "3.04d":["Not applicable.","Gloves not required for current task."],
+    "3.04e":["Not applicable.","Safety footwear not assessed."],
+    "3.04f":["Not applicable.","No task-specific PPE required beyond 5 Points.","Standard 5 Points PPE sufficient for all tasks."],
+    "4.01":["Not applicable.","Evacuation procedures not assessed during this inspection."],
+    "4.02":["Not applicable.","Alarm procedures not assessed during this inspection."],
+    "4.03":["Not applicable.","Fire points not in immediate vicinity but accessible within terminal.","Fire point assessment not carried out."],
+    "4.04":["Not applicable.","Firefighting equipment not assessed during this inspection.","Managed by Wilson James - not inspected."],
+    "4.05":["Not applicable.","Escape route signage not assessed during this inspection."],
+    "5.01":["Not applicable.","Dust assessment not carried out.","No dust-generating works in progress."],
+    "5.02":["Not applicable.","Lighting not assessed during this inspection."],
+    "5.03":["Not applicable.","Storage areas not assessed during this inspection."],
+    "6.01":["Not applicable - no installation works during this shift.","Inspection/survey only - no equipment being installed.","Quality assessment not applicable to current activities."],
+    "6.02":["Not applicable - no checklists required for current activities.","Survey/inspection only.","Documentation not applicable to current scope."],
+    "7.01":["None currently.","No recommendations at this time.","No additional recommendations required."]
+};
 
 const SECTIONS = [
     {id:"0",title:"Previous Actions",items:[{id:"0.01",label:"Are previous actions reported appropriately addressed?"}]},
@@ -219,50 +259,72 @@ function StatusToggle({value,onChange,t}){
 // ─── Comment Field ───
 function CommentField({itemId,status,comment,onChangeComment,t}){
     const [showPresets,setShowPresets]=useState(false);
-    const presets=(status==="Y"&&YES_COMMENTS[itemId])||[];
+    const presets=(status==="Y"&&YES_COMMENTS[itemId])||(status==="N/A"&&NA_COMMENTS[itemId])||[];
     if(!status) return null;
-
-    if(status==="N/A") return (
-        <div style={{fontSize:12,color:t.naText,fontStyle:"italic",padding:"8px 12px",backgroundColor:t.naBg,borderRadius:8,border:`1px solid ${t.border}`}}>
-            {comment||NA_COMMENTS[itemId]||"Not applicable."}
-        </div>
-    );
 
     if(status==="N") return (
         <textarea value={comment} onChange={e=>onChangeComment(e.target.value)} placeholder="Describe the issue..."
                   rows={2} style={{width:"100%",padding:"8px 12px",borderRadius:8,border:`1.5px solid ${t.nBorder}`,backgroundColor:t.nBg,color:t.nText,fontSize:13,outline:"none",boxSizing:"border-box",resize:"vertical",minHeight:40,fontFamily:"inherit"}} />
     );
 
+    // Check which presets are currently in the comment
+    const isSelected=(preset)=>comment.split(" ").join(" ").includes(preset);
+    const selectedCount=presets.filter(p=>isSelected(p)).length;
+
+    const togglePreset=(preset)=>{
+        if(isSelected(preset)){
+            // Remove this preset from comment
+            let updated=comment.replace(preset,"").replace(/\s{2,}/g," ").trim();
+            onChangeComment(updated);
+        } else {
+            // Append preset to comment
+            const sep=comment.trim()?" ":"";
+            onChangeComment(comment.trim()+sep+preset);
+        }
+    };
+
+    const borderColor=status==="Y"?t.yBorder:t.border;
+    const bgColor=comment?(status==="Y"?t.yBg:t.naBg):t.bgInput;
+
     return (
         <div>
             {comment&&(
-                <div style={{marginBottom:6,padding:"8px 12px",backgroundColor:t.badgeBg,border:`1px solid ${t.badgeBorder}`,borderRadius:8,fontSize:12,color:t.badgeText,display:"flex",alignItems:"flex-start",gap:8}}>
-                    <span style={{flex:1}}>{comment}</span>
+                <div style={{marginBottom:6,padding:"8px 12px",backgroundColor:status==="Y"?t.badgeBg:t.naBg,border:`1px solid ${status==="Y"?t.badgeBorder:t.border}`,borderRadius:8,fontSize:12,color:status==="Y"?t.badgeText:t.naText,display:"flex",alignItems:"flex-start",gap:8}}>
+                    <span style={{flex:1,fontStyle:status==="N/A"?"italic":"normal"}}>{comment}</span>
                     <button onClick={()=>onChangeComment("")} style={{background:"none",border:"none",cursor:"pointer",color:t.textMuted,fontSize:14,flexShrink:0,padding:0,lineHeight:1}}>✕</button>
                 </div>
             )}
             <div style={{display:"flex",gap:6,alignItems:"stretch"}}>
         <textarea value={comment} onChange={e=>onChangeComment(e.target.value)}
-                  placeholder={presets.length>0?"Select a preset below or type here...":"Type comment..."}
-                  rows={2} style={{flex:1,padding:"8px 12px",borderRadius:8,border:`1.5px solid ${t.yBorder}`,backgroundColor:comment?t.yBg:t.bgInput,color:t.text,fontSize:13,outline:"none",boxSizing:"border-box",resize:"vertical",minHeight:40,fontFamily:"inherit"}} />
+                  placeholder={presets.length>0?"Select presets below or type here...":"Type comment..."}
+                  rows={2} style={{flex:1,padding:"8px 12px",borderRadius:8,border:`1.5px solid ${borderColor}`,backgroundColor:bgColor,color:t.text,fontSize:13,outline:"none",boxSizing:"border-box",resize:"vertical",minHeight:40,fontFamily:"inherit"}} />
                 {presets.length>0&&(
                     <button onClick={()=>setShowPresets(!showPresets)}
-                            style={{padding:"8px 10px",borderRadius:8,border:`1px solid ${t.border}`,backgroundColor:showPresets?t.bgHover:t.bgInput,cursor:"pointer",fontSize:16,color:t.textMuted,flexShrink:0,fontFamily:"inherit",lineHeight:1,alignSelf:"flex-start"}}>
+                            style={{padding:"8px 10px",borderRadius:8,border:`1px solid ${t.border}`,backgroundColor:showPresets?t.bgHover:t.bgInput,cursor:"pointer",fontSize:16,color:t.textMuted,flexShrink:0,fontFamily:"inherit",lineHeight:1,alignSelf:"flex-start",position:"relative"}}>
                         {showPresets?"▲":"▼"}
+                        {selectedCount>0&&!showPresets&&<span style={{position:"absolute",top:-6,right:-6,width:16,height:16,borderRadius:8,backgroundColor:status==="Y"?t.accentGreen:t.statusNA,color:"#fff",fontSize:9,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center"}}>{selectedCount}</span>}
                     </button>
                 )}
             </div>
             {showPresets&&presets.length>0&&(
                 <div style={{marginTop:6,border:`1px solid ${t.border}`,borderRadius:8,backgroundColor:t.presetBg,overflow:"hidden",boxShadow:"0 4px 12px rgba(0,0,0,0.15)"}}>
-                    {presets.map((p,i)=>(
-                        <button key={i} onClick={()=>{onChangeComment(p);setShowPresets(false);}}
-                                style={{width:"100%",padding:"10px 14px",border:"none",borderBottom:i<presets.length-1?`1px solid ${t.borderLight}`:"none",
-                                    backgroundColor:comment===p?t.presetActiveBg:t.presetBg,cursor:"pointer",fontSize:12,color:t.text,textAlign:"left",fontFamily:"inherit"}}
-                                onMouseEnter={e=>{if(comment!==p)e.target.style.backgroundColor=t.presetHover}}
-                                onMouseLeave={e=>{e.target.style.backgroundColor=comment===p?t.presetActiveBg:t.presetBg}}>
-                            <span style={{marginRight:8,color:t.accentGreen}}>●</span>{p}
-                        </button>
-                    ))}
+                    <div style={{padding:"6px 14px",borderBottom:`1px solid ${t.borderLight}`,fontSize:10,color:t.textMuted,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.5px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                        <span>Select one or more ({selectedCount} selected)</span>
+                        {selectedCount>0&&<button onClick={()=>onChangeComment("")} style={{background:"none",border:"none",cursor:"pointer",fontSize:10,color:t.accentRed,fontWeight:600,fontFamily:"inherit"}}>Clear all</button>}
+                    </div>
+                    {presets.map((p,i)=>{
+                        const active=isSelected(p);
+                        return (
+                            <button key={i} onClick={()=>togglePreset(p)}
+                                    style={{width:"100%",padding:"10px 14px",border:"none",borderBottom:i<presets.length-1?`1px solid ${t.borderLight}`:"none",
+                                        backgroundColor:active?t.presetActiveBg:t.presetBg,cursor:"pointer",fontSize:12,color:t.text,textAlign:"left",fontFamily:"inherit",display:"flex",alignItems:"flex-start",gap:8}}
+                                    onMouseEnter={e=>{if(!active)e.target.style.backgroundColor=t.presetHover}}
+                                    onMouseLeave={e=>{e.target.style.backgroundColor=active?t.presetActiveBg:t.presetBg}}>
+                                <span style={{width:16,height:16,borderRadius:4,border:`1.5px solid ${active?(status==="Y"?t.accentGreen:t.statusNA):t.border}`,backgroundColor:active?(status==="Y"?t.accentGreen:t.statusNA):"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:10,color:"#fff",marginTop:1}}>{active?"✓":""}</span>
+                                <span>{p}</span>
+                            </button>
+                        );
+                    })}
                 </div>
             )}
         </div>
@@ -401,9 +463,9 @@ function PrintDocument({header,items,actions,signoff,distributions,images}){
                 {SECTIONS.map(section=>(
                     <>
                         <tr key={`s${section.id}`}><td colSpan={4} style={{...c,backgroundColor:"#e8eef4",fontWeight:700,fontSize:"10px",color:"#1a3a5c"}}>{section.id}.0 {section.title}</td></tr>
-                        {section.items.map(item=>{const it=items[item.id];const cmt=it?.status==="N/A"?(it?.comment||NA_COMMENTS[item.id]||"Not applicable."):(it?.comment||"");
+                        {section.items.map(item=>{const it=items[item.id];const naDefault=NA_COMMENTS[item.id]?NA_COMMENTS[item.id][0]:"Not applicable.";const cmt=it?.status==="N/A"?(it?.comment||naDefault):(it?.comment||"");
                             return <tr key={item.id}><td style={{...c,textAlign:"center",fontWeight:600}}>{item.id}</td><td style={c}>{item.label}</td><td style={{...c,textAlign:"center",fontWeight:700,color:it?.status==="N"?"#c0392b":it?.status==="Y"?"#27ae60":"#7f8c8d"}}>{it?.status||"—"}</td><td style={c}>{cmt}</td></tr>;})}
-                        {section.subItems?.map(item=>{const it=items[item.id];const cmt=it?.status==="N/A"?(it?.comment||NA_COMMENTS[item.id]||"Not applicable."):(it?.comment||"");
+                        {section.subItems?.map(item=>{const it=items[item.id];const naDefault=NA_COMMENTS[item.id]?NA_COMMENTS[item.id][0]:"Not applicable.";const cmt=it?.status==="N/A"?(it?.comment||naDefault):(it?.comment||"");
                             return <tr key={item.id}><td style={{...c,textAlign:"center"}}></td><td style={{...c,paddingLeft:20,fontStyle:"italic"}}>{item.label}</td><td style={{...c,textAlign:"center",fontWeight:700,color:it?.status==="N"?"#c0392b":it?.status==="Y"?"#27ae60":"#7f8c8d"}}>{it?.status||"—"}</td><td style={c}>{cmt}</td></tr>;})}
                     </>
                 ))}
@@ -473,7 +535,7 @@ export default function PGIFormGenerator(){
 
     const updateHeader=(k,v)=>setHeader(p=>({...p,[k]:v}));
     const updateSignoff=(k,v)=>setSignoff(p=>({...p,[k]:v}));
-    const setItemStatus=useCallback((id,status)=>{setItems(p=>{const cur=p[id]||{status:"",comment:""};let comment=cur.comment;if(status==="N/A")comment=NA_COMMENTS[id]||"Not applicable.";else if(cur.status==="N/A")comment="";return{...p,[id]:{status,comment}};});},[]);
+    const setItemStatus=useCallback((id,status)=>{setItems(p=>{const cur=p[id]||{status:"",comment:""};let comment=cur.comment;if(status!==cur.status)comment="";return{...p,[id]:{status,comment}};});},[]);
     const setItemComment=useCallback((id,comment)=>{setItems(p=>({...p,[id]:{...p[id],comment}}));},[]);
     const addAction=()=>setActions(p=>[...p,defaultAction()]);
     const removeAction=id=>setActions(p=>p.filter(a=>a.id!==id));
