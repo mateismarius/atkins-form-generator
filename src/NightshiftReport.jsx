@@ -1,10 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 
 function useDarkMode(){const [d,setD]=useState(()=>window.matchMedia?.("(prefers-color-scheme: dark)").matches??false);useEffect(()=>{const mq=window.matchMedia("(prefers-color-scheme: dark)");const h=e=>setD(e.matches);mq.addEventListener("change",h);return()=>mq.removeEventListener("change",h);},[]);return d;}
 function useMobile(bp=640){const [m,setM]=useState(()=>window.innerWidth<bp);useEffect(()=>{const h=()=>setM(window.innerWidth<bp);window.addEventListener("resize",h);return()=>window.removeEventListener("resize",h);},[bp]);return m;}
 function useTheme(){const dark=useDarkMode();return dark?{bg:"#0f172a",bgCard:"#1e293b",bgCardAlt:"#172032",bgInput:"#1e293b",bgHover:"#334155",border:"#334155",borderLight:"#475569",text:"#e2e8f0",textMuted:"#94a3b8",textDim:"#64748b",accent:"#3b82f6",accentGreen:"#10b981",accentRed:"#ef4444",topBar:"linear-gradient(135deg,#0c1322,#162032)",topBarText:"#f1f5f9",sectionOpen:"#172032",statusY:"#059669",statusN:"#dc2626",btnBg:"#334155",btnText:"#e2e8f0",btnBorder:"#475569",selectBg:"#1e293b",yBg:"#064e3b",naBg:"#1e293b",badgeBg:"#064e3b",badgeBorder:"#059669",badgeText:"#a7f3d0"}:{bg:"#f8fafc",bgCard:"#ffffff",bgCardAlt:"#fafbfc",bgInput:"#ffffff",bgHover:"#f8fafc",border:"#e2e8f0",borderLight:"#f1f5f9",text:"#1e293b",textMuted:"#64748b",textDim:"#94a3b8",accent:"#2563eb",accentGreen:"#059669",accentRed:"#dc2626",topBar:"linear-gradient(135deg,#0f172a,#1e293b)",topBarText:"#f1f5f9",sectionOpen:"#f8fafc",statusY:"#059669",statusN:"#dc2626",btnBg:"#ffffff",btnText:"#374151",btnBorder:"#d1d5db",selectBg:"#ffffff",yBg:"#f0fdf4",naBg:"#f9fafb",badgeBg:"#f0fdf4",badgeBorder:"#bbf7d0",badgeText:"#166534"};}
-
-const WORK_PACKAGES=["T2","T3","T4","T5","Fibre","Campus"];
 
 // ─── Select with custom option ───
 function HeaderSelect({value,onChange,options,placeholder,t}){
@@ -35,7 +33,7 @@ const AREA_LIST=["T2A CSA – Phase 6","T2A Fast Track / ATP Gates","T2A Phase 6
 
 const defaultReport={
     projectTitle:"",date:new Date().toISOString().split("T")[0],author:"",
-    workPackages:[],
+    workPackage:"",
     suppliers:[{name:"AtkinsRéalis",engineers:""},{name:"Computacenter",engineers:""}],
     nabsAttended:"",nabsComments:"",
     generalIssues:"",generalComments:"",
@@ -77,7 +75,7 @@ function PrintReport({data,logoSrc,images}){
                         <td style={{...c,fontWeight:700,width:"20%"}}>Project Title:</td>
                         <td style={{...c,width:"30%"}}>{data.projectTitle}</td>
                         <td style={{...c,fontWeight:700,width:"15%"}}>Work Package</td>
-                        <td style={{...c,width:"35%"}}>{data.workPackages.join(", ")}</td>
+                        <td style={{...c,width:"35%"}}>{data.workPackage}</td>
                     </tr>
                     <tr>
                         <td style={{...c,fontWeight:700}}>Report Author:</td>
@@ -184,8 +182,6 @@ export default function NightshiftReport({onBack,logoSrc}){
     const addWork=()=>setData(p=>({...p,workEntries:[...p.workEntries,defaultWorkEntry()]}));
     const removeWork=id=>setData(p=>({...p,workEntries:p.workEntries.filter(w=>w.id!==id)}));
     const updWork=(id,k,v)=>setData(p=>({...p,workEntries:p.workEntries.map(w=>w.id===id?{...w,[k]:v}:w)}));
-    const toggleWP=wp=>setData(p=>{const wps=p.workPackages.includes(wp)?p.workPackages.filter(w=>w!==wp):[...p.workPackages,wp];return{...p,workPackages:wps};});
-
     const handleImageUpload=e=>{Array.from(e.target.files).forEach(file=>{const reader=new FileReader();reader.onload=ev=>setImages(prev=>[...prev,{id:Date.now()+Math.random(),dataUrl:ev.target.result,caption:"",fileName:file.name}]);reader.readAsDataURL(file);});e.target.value="";};
     const removeImage=id=>setImages(p=>p.filter(img=>img.id!==id));
     const updateImageCaption=(id,caption)=>setImages(p=>p.map(img=>img.id===id?{...img,caption}:img));
@@ -244,19 +240,7 @@ export default function NightshiftReport({onBack,logoSrc}){
                             <HeaderSelect value={data.author} onChange={v=>upd("author",v)} options={AUTHOR_LIST} placeholder="Author name" t={t} />
                         </div>
                         <div><label style={lbl}>Date</label><input type="date" value={data.date} onChange={e=>upd("date",e.target.value)} style={inp} /></div>
-                        <div>
-                            <label style={lbl}>Work Package</label>
-                            <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-                                {WORK_PACKAGES.map(wp=>(
-                                    <button key={wp} onClick={()=>toggleWP(wp)}
-                                        style={{padding:"6px 14px",borderRadius:6,fontSize:12,cursor:"pointer",fontFamily:"inherit",
-                                            border:data.workPackages.includes(wp)?"2px solid transparent":`1px solid ${t.border}`,
-                                            fontWeight:data.workPackages.includes(wp)?700:400,
-                                            backgroundColor:data.workPackages.includes(wp)?t.accent:t.bgInput,
-                                            color:data.workPackages.includes(wp)?"#fff":t.text}}>{wp}</button>
-                                ))}
-                            </div>
-                        </div>
+                        <div><label style={lbl}>Work Package</label><input type="text" value={data.workPackage} onChange={e=>upd("workPackage",e.target.value)} style={inp} placeholder="e.g. T2, T5, Fibre" /></div>
                     </div>
                 </div>
 
