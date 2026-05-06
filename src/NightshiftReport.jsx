@@ -178,7 +178,7 @@ export default function NightshiftReport({onBack,logoSrc}){
     const addWork=()=>setData(p=>({...p,workEntries:[...p.workEntries,defaultWorkEntry()]}));
     const removeWork=id=>setData(p=>({...p,workEntries:p.workEntries.filter(w=>w.id!==id)}));
     const updWork=(id,k,v)=>setData(p=>({...p,workEntries:p.workEntries.map(w=>w.id===id?{...w,[k]:v}:w)}));
-    const handleImageUpload=e=>{Array.from(e.target.files).forEach(file=>{const reader=new FileReader();reader.onload=ev=>{const img=new Image();img.onload=()=>{const MAX=1200;let w=img.width,h=img.height;if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX}else{w=Math.round(w*MAX/h);h=MAX}}const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;canvas.getContext("2d").drawImage(img,0,0,w,h);const compressed=canvas.toDataURL("image/jpeg",0.7);setImages(prev=>[...prev,{id:Date.now()+Math.random(),dataUrl:compressed,caption:"",fileName:file.name}]);};img.src=ev.target.result;};reader.readAsDataURL(file);});e.target.value="";};
+    const handleImageUpload=e=>{Array.from(e.target.files).forEach(file=>{const reader=new FileReader();reader.onload=ev=>{const img=new Image();img.onload=()=>{const MAX=1200;let w=img.width,h=img.height;if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX}else{w=Math.round(w*MAX/h);h=MAX}}const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;canvas.getContext("2d").drawImage(img,0,0,w,h);const compressed=canvas.toDataURL("image/jpeg",0.7);setImages(prev=>[...prev,{id:Date.now()+Math.random(),dataUrl:compressed,caption:"",fileName:file.name}]);};img.onerror=()=>{setImages(prev=>[...prev,{id:Date.now()+Math.random(),dataUrl:ev.target.result,caption:"",fileName:file.name}]);};img.src=ev.target.result;};reader.readAsDataURL(file);});e.target.value="";};
     const removeImage=id=>setImages(p=>p.filter(img=>img.id!==id));
     const updateImageCaption=(id,caption)=>setImages(p=>p.map(img=>img.id===id?{...img,caption}:img));
     const moveImage=(idx,dir)=>setImages(p=>{const a=[...p];const n=idx+dir;if(n<0||n>=a.length)return a;[a[idx],a[n]]=[a[n],a[idx]];return a;});
@@ -318,7 +318,7 @@ export default function NightshiftReport({onBack,logoSrc}){
                     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
                         <div style={{fontSize:14,fontWeight:700}}>Photo Evidence</div>
                         <label style={{padding:"7px 16px",borderRadius:8,border:"none",backgroundColor:t.accent,color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,display:"inline-flex",alignItems:"center",gap:4,fontFamily:"inherit"}}>
-                            + Upload Photos<input type="file" accept="image/*" multiple onChange={handleImageUpload} style={{display:"none"}} />
+                            + Upload Photos<input type="file" accept="image/*,.heic,.heif" multiple onChange={handleImageUpload} style={{display:"none"}} />
                         </label>
                     </div>
                     {images.length===0&&<div style={{textAlign:"center",padding:20,color:t.textDim,fontSize:13}}>No photos uploaded. Images appear 4 per page in the report.</div>}
