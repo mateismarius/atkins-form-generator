@@ -40,8 +40,7 @@ const defaultReport={
     smokeIsolation:"",smokeComments:"",
     hsIssues:"",hsComments:"",
     allWorksAchieved:"",
-    workEntries:[],
-    distribution:""
+    workEntries:[]
 };
 const defaultWorkEntry=()=>({id:Date.now(),area:"",supplier:"",details:""});
 
@@ -106,8 +105,10 @@ function PrintReport({data,logoSrc,images}){
                 <table key={i} style={{width:"100%",borderCollapse:"collapse",marginBottom:10}}>
                     <tbody>
                         <tr><td colSpan={2} style={{...h,fontSize:"11px"}}>{label}</td></tr>
-                        <tr><td style={{...c,width:"20%",fontWeight:600}}>{"Yes"===yn?"Yes ☒  No ☐":"Yes ☐  No ☒"}</td><td style={c}></td></tr>
-                        <tr><td style={{...c,fontWeight:600}}>Comments</td><td style={c}>{comments||"—"}</td></tr>
+                        <tr>
+                            <td style={{...c,width:"20%",fontWeight:600,verticalAlign:"top"}}>{"Yes"===yn?"Yes ☒  No ☐":"Yes ☐  No ☒"}</td>
+                            <td style={{...c,verticalAlign:"top"}}><span style={{fontWeight:600}}>Comments: </span>{comments||"—"}</td>
+                        </tr>
                     </tbody>
                 </table>
             ))}
@@ -122,27 +123,22 @@ function PrintReport({data,logoSrc,images}){
 
             {/* Work Entries */}
             {data.workEntries.length>0&&(
-                <div style={{marginBottom:14}}>
+                <div style={{border:"1px solid #333",borderRadius:4,marginBottom:14,overflow:"hidden"}}>
+                    <div style={{backgroundColor:"#1a3a5c",color:"#fff",fontWeight:700,padding:"5px 8px",fontSize:"11px"}}>Works Summary</div>
+                    <div style={{padding:"8px 10px"}}>
                     {Object.entries(data.workEntries.reduce((acc,e)=>{const k=e.supplier||"Other";if(!acc[k])acc[k]=[];acc[k].push(e);return acc;},{})).map(([supplier,entries])=>(
-                        <div key={supplier} style={{marginBottom:10}}>
-                            <div style={{fontWeight:700,fontSize:"12px",marginBottom:4,borderBottom:"1px solid #333",paddingBottom:2}}>{supplier}</div>
+                        <div key={supplier} style={{marginBottom:8}}>
+                            <div style={{fontWeight:700,fontSize:"11px",marginBottom:3,borderBottom:"1px solid #999",paddingBottom:2}}>{supplier}</div>
                             {entries.map((e,i)=>(
-                                <div key={i} style={{marginBottom:6,paddingLeft:12}}>
+                                <div key={i} style={{marginBottom:4,paddingLeft:12,fontSize:"10px"}}>
                                     <span style={{fontWeight:700}}>{e.area}</span> – {e.details}
                                 </div>
                             ))}
                         </div>
                     ))}
+                    </div>
                 </div>
             )}
-
-            {/* Distribution */}
-            <table style={{width:"100%",borderCollapse:"collapse",marginBottom:10}}>
-                <tbody>
-                    <tr><td style={h}>Distribution of report</td></tr>
-                    <tr><td style={{...c,whiteSpace:"pre-wrap"}}>{data.distribution||"—"}</td></tr>
-                </tbody>
-            </table>
 
             <div style={{fontSize:"8px",color:"#888",textAlign:"center",marginTop:16}}>AtkinsRéalis - Baseline / Référence</div>
 
@@ -182,16 +178,7 @@ export default function NightshiftReport({onBack,logoSrc}){
     const addWork=()=>setData(p=>({...p,workEntries:[...p.workEntries,defaultWorkEntry()]}));
     const removeWork=id=>setData(p=>({...p,workEntries:p.workEntries.filter(w=>w.id!==id)}));
     const updWork=(id,k,v)=>setData(p=>({...p,workEntries:p.workEntries.map(w=>w.id===id?{...w,[k]:v}:w)}));
-   const handleImageUpload=e=>{Array.from(e.target.files).forEach(file=>{const 
-reader=new FileReader();reader.onload=ev=>{const img=new 
-Image();img.onload=()=>{const MAX=1200;let 
-w=img.width,h=img.height;if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX}
-else{w=Math.round(w*MAX/h);h=MAX}}const 
-canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;canvas.
-getContext("2d").drawImage(img,0,0,w,h);const 
-compressed=canvas.toDataURL("image/jpeg",0.7);setImages(prev=>[...prev,{id:Date.no
-w()+Math.random(),dataUrl:compressed,caption:"",fileName:file.name}]);};img.src=ev.t
-arget.result;};reader.readAsDataURL(file);});e.target.value="";}; 
+    const handleImageUpload=e=>{Array.from(e.target.files).forEach(file=>{const reader=new FileReader();reader.onload=ev=>{const img=new Image();img.onload=()=>{const MAX=1200;let w=img.width,h=img.height;if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX}else{w=Math.round(w*MAX/h);h=MAX}}const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;canvas.getContext("2d").drawImage(img,0,0,w,h);const compressed=canvas.toDataURL("image/jpeg",0.7);setImages(prev=>[...prev,{id:Date.now()+Math.random(),dataUrl:compressed,caption:"",fileName:file.name}]);};img.src=ev.target.result;};reader.readAsDataURL(file);});e.target.value="";};
     const removeImage=id=>setImages(p=>p.filter(img=>img.id!==id));
     const updateImageCaption=(id,caption)=>setImages(p=>p.map(img=>img.id===id?{...img,caption}:img));
     const moveImage=(idx,dir)=>setImages(p=>{const a=[...p];const n=idx+dir;if(n<0||n>=a.length)return a;[a[idx],a[n]]=[a[n],a[idx]];return a;});
@@ -352,12 +339,6 @@ arget.result;};reader.readAsDataURL(file);});e.target.value="";};
                             </div>
                         ))}
                     </div>
-                </div>
-
-                {/* Distribution */}
-                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`}}>
-                    <div style={{fontSize:14,fontWeight:700,marginBottom:14}}>Distribution</div>
-                    <textarea value={data.distribution} onChange={e=>upd("distribution",e.target.value)} rows={4} style={{...inp,resize:"vertical"}} placeholder="Email addresses for report distribution..." />
                 </div>
 
                 {/* Bottom */}
