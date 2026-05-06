@@ -182,7 +182,16 @@ export default function NightshiftReport({onBack,logoSrc}){
     const addWork=()=>setData(p=>({...p,workEntries:[...p.workEntries,defaultWorkEntry()]}));
     const removeWork=id=>setData(p=>({...p,workEntries:p.workEntries.filter(w=>w.id!==id)}));
     const updWork=(id,k,v)=>setData(p=>({...p,workEntries:p.workEntries.map(w=>w.id===id?{...w,[k]:v}:w)}));
-    const handleImageUpload=e=>{Array.from(e.target.files).forEach(file=>{const reader=new FileReader();reader.onload=ev=>setImages(prev=>[...prev,{id:Date.now()+Math.random(),dataUrl:ev.target.result,caption:"",fileName:file.name}]);reader.readAsDataURL(file);});e.target.value="";};
+   const handleImageUpload=e=>{Array.from(e.target.files).forEach(file=>{const 
+reader=new FileReader();reader.onload=ev=>{const img=new 
+Image();img.onload=()=>{const MAX=1200;let 
+w=img.width,h=img.height;if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX}
+else{w=Math.round(w*MAX/h);h=MAX}}const 
+canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;canvas.
+getContext("2d").drawImage(img,0,0,w,h);const 
+compressed=canvas.toDataURL("image/jpeg",0.7);setImages(prev=>[...prev,{id:Date.no
+w()+Math.random(),dataUrl:compressed,caption:"",fileName:file.name}]);};img.src=ev.t
+arget.result;};reader.readAsDataURL(file);});e.target.value="";}; 
     const removeImage=id=>setImages(p=>p.filter(img=>img.id!==id));
     const updateImageCaption=(id,caption)=>setImages(p=>p.map(img=>img.id===id?{...img,caption}:img));
     const moveImage=(idx,dir)=>setImages(p=>{const a=[...p];const n=idx+dir;if(n<0||n>=a.length)return a;[a[idx],a[n]]=[a[n],a[idx]];return a;});
