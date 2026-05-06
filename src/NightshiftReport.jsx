@@ -233,7 +233,7 @@ export default function NightshiftReport({onBack,logoSrc}){
                     <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"1fr 1fr",gap:12}}>
                         <div style={{minWidth:0}}>
                             <label style={lbl}>Project Title</label>
-                            <HeaderSelect value={data.projectTitle} onChange={v=>upd("projectTitle",v)} options={["T2A Security Phase 6 Works","T2A CSA","T2 Security Retrofit Deployment"]} placeholder="Project title" t={t} />
+                            <HeaderSelect value={data.projectTitle} onChange={v=>upd("projectTitle",v)} options={["T4 Security Project", "T2A Security Phase 6 Works", "T5 Security Project", "T3 Security Project"]} placeholder="Project title" t={t} />
                         </div>
                         <div>
                             <label style={lbl}>Report Author</label>
