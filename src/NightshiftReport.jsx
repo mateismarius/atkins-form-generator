@@ -27,9 +27,9 @@ function HeaderSelect({value,onChange,options,placeholder,t}){
         </div>
     );
 }
-const SUPPLIER_LIST=["AtkinsRéalis","Computacenter","Sword Services","Maber","Contour","Projective Consulting"];
-const AUTHOR_LIST=["Peter Murphy","Tim Finch","Gracious Chukwu","Marius Sandu"];
-const AREA_LIST=["T2A CSA – Phase 6","T2A Fast Track / ATP Gates","T2A Phase 6 / Staff Exit / Back of House","T2A QAS / Back of House / SCR L2-30","T2A CSA / FCC","T2A Departures","T2A Arrivals","T2A Back of House"];
+const SUPPLIER_LIST=["AtkinsRéalis","Computacenter","Sword Services","Maber","Contour","Projective Consulting", "STS", "Mitie"];
+const AUTHOR_LIST=["Peter Murphy","Mat Godwin","Fred Tebbenham","Marius Matei", "Jacob McCalla"];
+const AREA_LIST=[];
 
 const defaultReport={
     projectTitle:"",date:new Date().toISOString().split("T")[0],author:"",
