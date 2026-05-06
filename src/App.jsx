@@ -53,7 +53,7 @@ export default function App(){
                     </div>
                     <div>
                         <div style={{fontSize:15,fontWeight:700,color:text}}>Nightshift Report</div>
-                        <div style={{fontSize:12,color:textMuted,marginTop:4}}>T2 Security shift report — suppliers, NABS, H&S, smoke isolations, and works achieved</div>
+                        <div style={{fontSize:12,color:textMuted,marginTop:4}}>Night shift report — suppliers, NABS, H&S, smoke isolations, and works achieved</div>
                     </div>
                     <span style={{fontSize:18,color:textMuted,marginLeft:"auto",flexShrink:0}}>→</span>
                 </button>
