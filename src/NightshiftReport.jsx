@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function useDarkMode(){const [d,setD]=useState(()=>window.matchMedia?.("(prefers-color-scheme: dark)").matches??false);useEffect(()=>{const mq=window.matchMedia("(prefers-color-scheme: dark)");const h=e=>setD(e.matches);mq.addEventListener("change",h);return()=>mq.removeEventListener("change",h);},[]);return d;}
 function useMobile(bp=640){const [m,setM]=useState(()=>window.innerWidth<bp);useEffect(()=>{const h=()=>setM(window.innerWidth<bp);window.addEventListener("resize",h);return()=>window.removeEventListener("resize",h);},[bp]);return m;}
@@ -107,7 +107,7 @@ function PrintReport({data,logoSrc,images}){
                         <tr><td colSpan={2} style={{...h,fontSize:"11px"}}>{label}</td></tr>
                         <tr>
                             <td style={{...c,width:"20%",fontWeight:600,verticalAlign:"top"}}>{"Yes"===yn?"Yes ☒  No ☐":"Yes ☐  No ☒"}</td>
-                            <td style={{...c,verticalAlign:"top"}}><span style={{fontWeight:600}}>Comments: </span>{comments||"—"}</td>
+                            <td style={{...c,verticalAlign:"top",whiteSpace:"pre-wrap"}}><span style={{fontWeight:600}}>Comments: </span>{comments||"—"}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -123,24 +123,28 @@ function PrintReport({data,logoSrc,images}){
 
             {/* Work Entries */}
             {data.workEntries.length>0&&(
-                <div style={{border:"1px solid #333",borderRadius:4,marginBottom:14,overflow:"hidden"}}>
-                    <div style={{backgroundColor:"#1a3a5c",color:"#fff",fontWeight:700,padding:"5px 8px",fontSize:"11px"}}>Works Summary</div>
-                    <div style={{padding:"8px 10px"}}>
-                    {Object.entries(data.workEntries.reduce((acc,e)=>{const k=e.supplier||"Other";if(!acc[k])acc[k]=[];acc[k].push(e);return acc;},{})).map(([supplier,entries])=>(
-                        <div key={supplier} style={{marginBottom:8}}>
-                            <div style={{fontWeight:700,fontSize:"11px",marginBottom:3,borderBottom:"1px solid #999",paddingBottom:2}}>{supplier}</div>
-                            {entries.map((e,i)=>(
-                                <div key={i} style={{marginBottom:4,paddingLeft:12,fontSize:"10px"}}>
-                                    <span style={{fontWeight:700}}>{e.area}</span> – {e.details}
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-                    </div>
-                </div>
+                <table style={{width:"100%",borderCollapse:"collapse",marginBottom:14,borderBottom:"1px solid #333"}}>
+                    <thead><tr><td style={{backgroundColor:"#1a3a5c",color:"#fff",fontWeight:700,padding:"5px 8px",fontSize:"11px",border:"1px solid #1a3a5c"}}>Works Summary</td></tr></thead>
+                    <tbody>
+                    {(()=>{
+                        const grouped=data.workEntries.reduce((acc,e)=>{const k=e.supplier||"Other";if(!acc[k])acc[k]=[];acc[k].push(e);return acc;},{});
+                        const rows=[];
+                        Object.entries(grouped).forEach(([supplier,entries])=>{
+                            rows.push(<tr key={`h-${supplier}`}><td style={{borderLeft:"1px solid #333",borderRight:"1px solid #333",padding:"6px 10px",fontWeight:700,fontSize:"11px",backgroundColor:"#f0f0f0"}}>{supplier}</td></tr>);
+                            entries.forEach((e,i)=>{
+                                rows.push(<tr key={`e-${supplier}-${i}`}><td style={{borderLeft:"1px solid #333",borderRight:"1px solid #333",padding:"4px 10px 4px 22px",fontSize:"10px"}}>
+                                    <div style={{fontWeight:700,marginBottom:2}}>{e.area}</div>
+                                    <div style={{whiteSpace:"pre-wrap",paddingLeft:8}}>{e.details}</div>
+                                </td></tr>);
+                            });
+                        });
+                        return rows;
+                    })()}
+                    </tbody>
+                </table>
             )}
 
-            <div style={{fontSize:"8px",color:"#888",textAlign:"center",marginTop:16}}>AtkinsRéalis - Baseline / Référence</div>
+            <div style={{fontSize:"8px",color:"#888",textAlign:"center",paddingTop:8,borderTop:"1px solid #ccc",marginTop:8}}>AtkinsRéalis - Baseline / Référence</div>
 
             {/* Photo Evidence Pages */}
             {imagePages.map((page,pi)=>(
@@ -183,7 +187,7 @@ export default function NightshiftReport({onBack,logoSrc}){
     const updateImageCaption=(id,caption)=>setImages(p=>p.map(img=>img.id===id?{...img,caption}:img));
     const moveImage=(idx,dir)=>setImages(p=>{const a=[...p];const n=idx+dir;if(n<0||n>=a.length)return a;[a[idx],a[n]]=[a[n],a[idx]];return a;});
 
-    const handlePrint=()=>{const win=window.open("","_blank");win.document.write(`<!DOCTYPE html><html><head><title>Nightshift Report - ${data.date}</title><style>@media print{body{margin:0}@page{size:A4;margin:10mm}}body{font-family:'Segoe UI',Arial,sans-serif;margin:0;padding:0;background:#fff;color:#1a1a1a;-webkit-print-color-adjust:exact;print-color-adjust:exact}</style></head><body>${printRef.current.innerHTML}</body></html>`);win.document.close();setTimeout(()=>win.print(),400);};
+    const handlePrint=()=>{const win=window.open("","_blank");win.document.write(`<!DOCTYPE html><html><head><title>Nightshift Report - ${data.date}</title><style>@media print{body{margin:0}@page{size:A4;margin:8mm}thead{display:table-header-group}td{-webkit-box-decoration-break:clone;box-decoration-break:clone}.page-border-bottom{position:fixed;bottom:0;left:10mm;right:10mm;height:0;border-bottom:1px solid #333}}body{font-family:'Segoe UI',Arial,sans-serif;margin:0;padding:0;background:#fff;color:#1a1a1a;-webkit-print-color-adjust:exact;print-color-adjust:exact}.page-border-bottom{display:none}@media print{.page-border-bottom{display:block}}</style></head><body><div class="page-border-bottom"></div>${printRef.current.innerHTML}</body></html>`);win.document.close();setTimeout(()=>win.print(),400);};
     const handleSave=()=>{const blob=new Blob([JSON.stringify({...data,images},null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=`NightReport_${data.date||"draft"}.json`;a.click();URL.revokeObjectURL(url);};
     const handleLoad=()=>{const input=document.createElement("input");input.type="file";input.accept=".json";input.onchange=e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.images){setImages(d.images);delete d.images;}setData(d);}catch{alert("Invalid JSON file");}};reader.readAsText(file);};input.click();};
 
