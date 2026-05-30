@@ -215,16 +215,16 @@ const defaultSignoff={issuedByName:"",issuedByDate:"",issuedBySig:"",acceptedByN
 function initItems(){const r={};SECTIONS.forEach(s=>{s.items.forEach(i=>{r[i.id]={status:"",comment:""};});if(s.subItems)s.subItems.forEach(i=>{r[i.id]={status:"",comment:""};});});return r;}
 
 // ─── Header Select ───
-function HeaderSelect({value,onChange,options,placeholder,t}){
+function HeaderSelect({value,onChange,options,placeholder,t,multiline}){
     const [mode,setMode]=useState("select");
     const showCustom=mode==="custom"||(value&&!options.includes(value));
     const wrapStyle={display:"flex",width:"100%",minWidth:0,overflow:"hidden"};
     const fieldBase={flex:"1 1 0%",minWidth:0,padding:"8px 12px",borderRadius:"8px 0 0 8px",border:`1.5px solid ${t.border}`,borderRight:"none",fontSize:13,outline:"none",boxSizing:"border-box",backgroundColor:t.bgInput,color:t.text,fontFamily:"inherit"};
-    const btnStyle={padding:"8px 12px",borderRadius:"0 8px 8px 0",border:`1.5px solid ${t.border}`,borderLeft:"none",backgroundColor:t.bgCardAlt,cursor:"pointer",fontSize:11,color:t.textMuted,fontFamily:"inherit",flexShrink:0};
+    const btnStyle={padding:"8px 12px",borderRadius:"0 8px 8px 0",border:`1.5px solid ${t.border}`,borderLeft:"none",backgroundColor:t.bgCardAlt,cursor:"pointer",fontSize:11,color:t.textMuted,fontFamily:"inherit",flexShrink:0,alignSelf:multiline?"flex-start":"auto"};
     if(showCustom) return (
         <div style={wrapStyle}>
-            <input type="text" value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder}
-                   style={{...fieldBase,overflow:"hidden",textOverflow:"ellipsis"}} />
+            {multiline?<textarea value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} rows={2} style={{...fieldBase,overflow:"hidden",resize:"vertical",minHeight:38}} />
+                :<input type="text" value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} style={{...fieldBase,overflow:"hidden",textOverflow:"ellipsis"}} />}
             <button onClick={()=>{setMode("select");onChange("");}} style={btnStyle}>▼</button>
         </div>
     );
@@ -314,14 +314,14 @@ function CommentField({itemId,status,comment,onChangeComment,t}){
                     {presets.map((p,i)=>{
                         const active=isSelected(p);
                         return (
-                        <button key={i} onClick={()=>togglePreset(p)}
-                                style={{width:"100%",padding:"10px 14px",border:"none",borderBottom:i<presets.length-1?`1px solid ${t.borderLight}`:"none",
-                                    backgroundColor:active?t.presetActiveBg:t.presetBg,cursor:"pointer",fontSize:12,color:t.text,textAlign:"left",fontFamily:"inherit",display:"flex",alignItems:"flex-start",gap:8}}
-                                onMouseEnter={e=>{if(!active)e.target.style.backgroundColor=t.presetHover}}
-                                onMouseLeave={e=>{e.target.style.backgroundColor=active?t.presetActiveBg:t.presetBg}}>
-                            <span style={{width:16,height:16,borderRadius:4,border:`1.5px solid ${active?(status==="Y"?t.accentGreen:t.statusNA):t.border}`,backgroundColor:active?(status==="Y"?t.accentGreen:t.statusNA):"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:10,color:"#fff",marginTop:1}}>{active?"✓":""}</span>
-                            <span>{p}</span>
-                        </button>
+                            <button key={i} onClick={()=>togglePreset(p)}
+                                    style={{width:"100%",padding:"10px 14px",border:"none",borderBottom:i<presets.length-1?`1px solid ${t.borderLight}`:"none",
+                                        backgroundColor:active?t.presetActiveBg:t.presetBg,cursor:"pointer",fontSize:12,color:t.text,textAlign:"left",fontFamily:"inherit",display:"flex",alignItems:"flex-start",gap:8}}
+                                    onMouseEnter={e=>{if(!active)e.target.style.backgroundColor=t.presetHover}}
+                                    onMouseLeave={e=>{e.target.style.backgroundColor=active?t.presetActiveBg:t.presetBg}}>
+                                <span style={{width:16,height:16,borderRadius:4,border:`1.5px solid ${active?(status==="Y"?t.accentGreen:t.statusNA):t.border}`,backgroundColor:active?(status==="Y"?t.accentGreen:t.statusNA):"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:10,color:"#fff",marginTop:1}}>{active?"✓":""}</span>
+                                <span>{p}</span>
+                            </button>
                         );
                     })}
                 </div>
@@ -431,14 +431,14 @@ function SignaturePad({value,onChange,t}){
             </button>
             <label style={{padding:"8px 16px",borderRadius:8,border:`1.5px dashed ${t.border}`,backgroundColor:t.bgInput,color:t.textMuted,cursor:"pointer",fontSize:12,fontFamily:"inherit",display:"flex",alignItems:"center",gap:6}}>
                 <span style={{fontSize:14}}>📷</span> Upload Image
-                <input type="file" accept="image/*,.heic,.heif" onChange={handleUpload} style={{display:"none"}} />
+                <input type="file" accept="image/*" onChange={handleUpload} style={{display:"none"}} />
             </label>
         </div>
     );
 }
 
 // ─── Print Document (always light for printing) ───
-function PrintDocument({header,items,actions,signoff,images,logoSrc}){
+function PrintDocument({header,items,actions,signoff,distributions,images,logoSrc}){
     const c={border:"1px solid #333",padding:"4px 6px",fontSize:"9px",verticalAlign:"top"};
     const h={...c,backgroundColor:"#1a3a5c",color:"#fff",fontWeight:700};
     const imagePages=[];for(let i=0;i<images.length;i+=4)imagePages.push(images.slice(i,i+4));
@@ -492,6 +492,7 @@ function PrintDocument({header,items,actions,signoff,images,logoSrc}){
                 <td style={c}>{signoff.acceptedByDate}</td>
             </tr>
             </tbody></table>
+            <div style={{fontSize:"8px",color:"#555",borderTop:"1px solid #ccc",paddingTop:6}}><strong>Distribution:</strong> {distributions||"Person accepting inspection on site • Project Manager/PIM • Minor Works Project HSE Manager • Senior HSE Manager for Transportation"}</div>
             {imagePages.map((page,pi)=>(
                 <div key={pi} style={{pageBreakBefore:"always",paddingTop:12}}>
                     <div style={{borderBottom:"3px solid #1a3a5c",paddingBottom:8,marginBottom:12,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
@@ -527,6 +528,7 @@ export default function PGIForm({ onBack, logoSrc }) {
     const [actions,setActions]=useState([]);
     const [signoff,setSignoff]=useState(defaultSignoff);
     const [activeSection,setActiveSection]=useState(null);
+    const [distributions,setDistributions]=useState("");
     const [images,setImages]=useState([]);
     const printRef=useRef();
 
@@ -538,14 +540,14 @@ export default function PGIForm({ onBack, logoSrc }) {
     const removeAction=id=>setActions(p=>p.filter(a=>a.id!==id));
     const updateAction=(id,k,v)=>setActions(p=>p.map(a=>a.id===id?{...a,[k]:v}:a));
 
-    const handleImageUpload=e=>{Array.from(e.target.files).forEach(file=>{const url=URL.createObjectURL(file);const img=new Image();img.onload=()=>{const MAX=1200;let w=img.width,h=img.height;if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX}else{w=Math.round(w*MAX/h);h=MAX}}const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;canvas.getContext("2d").drawImage(img,0,0,w,h);const compressed=canvas.toDataURL("image/jpeg",0.7);URL.revokeObjectURL(url);setImages(prev=>[...prev,{id:Date.now()+Math.random(),dataUrl:compressed,caption:"",fileName:file.name}]);};img.onerror=()=>{URL.revokeObjectURL(url);const reader=new FileReader();reader.onload=ev=>setImages(prev=>[...prev,{id:Date.now()+Math.random(),dataUrl:ev.target.result,caption:"",fileName:file.name}]);reader.readAsDataURL(file);};img.src=url;});e.target.value="";};
+    const handleImageUpload=e=>{Array.from(e.target.files).forEach(file=>{const reader=new FileReader();reader.onload=ev=>setImages(prev=>[...prev,{id:Date.now()+Math.random(),dataUrl:ev.target.result,caption:"",fileName:file.name}]);reader.readAsDataURL(file);});e.target.value="";};
     const removeImage=id=>setImages(p=>p.filter(img=>img.id!==id));
     const updateImageCaption=(id,caption)=>setImages(p=>p.map(img=>img.id===id?{...img,caption}:img));
     const moveImage=(idx,dir)=>setImages(p=>{const a=[...p];const n=idx+dir;if(n<0||n>=a.length)return a;[a[idx],a[n]]=[a[n],a[idx]];return a;});
 
     const handlePrint=()=>{const win=window.open("","_blank");win.document.write(`<!DOCTYPE html><html><head><title>PGI FO-057 - ${header.project||"Report"}</title><style>@media print{body{margin:0}@page{size:A4;margin:8mm}}body{font-family:'Segoe UI',Arial,sans-serif;margin:0;padding:0;background:#fff;color:#1a1a1a;-webkit-print-color-adjust:exact;print-color-adjust:exact}</style></head><body>${printRef.current.innerHTML}</body></html>`);win.document.close();setTimeout(()=>win.print(),400);};
-    const handleSaveJSON=()=>{const data={header,items,actions,signoff,images,exportedAt:new Date().toISOString()};const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=`PGI_${header.inspectionNo||"draft"}_${header.date||"nodate"}.json`;a.click();URL.revokeObjectURL(url);};
-    const handleLoadJSON=()=>{const input=document.createElement("input");input.type="file";input.accept=".json";input.onchange=e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.header)setHeader(d.header);if(d.items)setItems(d.items);if(d.actions)setActions(d.actions);if(d.signoff)setSignoff(d.signoff);if(d.images)setImages(d.images);}catch{alert("Invalid JSON file");}};reader.readAsText(file);};input.click();};
+    const handleSaveJSON=()=>{const data={header,items,actions,signoff,distributions,images,exportedAt:new Date().toISOString()};const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=`PGI_${header.inspectionNo||"draft"}_${header.date||"nodate"}.json`;a.click();URL.revokeObjectURL(url);};
+    const handleLoadJSON=()=>{const input=document.createElement("input");input.type="file";input.accept=".json";input.onchange=e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.header)setHeader(d.header);if(d.items)setItems(d.items);if(d.actions)setActions(d.actions);if(d.signoff)setSignoff(d.signoff);if(d.distributions)setDistributions(d.distributions);if(d.images)setImages(d.images);}catch{alert("Invalid JSON file");}};reader.readAsText(file);};input.click();};
 
     const completionCount=Object.values(items).filter(i=>i.status).length;
     const totalItems=Object.keys(items).length;
@@ -561,7 +563,7 @@ export default function PGIForm({ onBack, logoSrc }) {
                 <span style={{color:"#94a3b8",fontSize:12}}>Preview{images.length>0?` — ${Math.ceil(images.length/4)} photo page(s)`:""}</span>
             </div>
             <div ref={printRef} style={{margin:"20px auto",maxWidth:900,backgroundColor:"#fff",boxShadow:"0 4px 24px rgba(0,0,0,0.12)",borderRadius:4,overflow:"hidden"}}>
-                <PrintDocument header={header} items={items} actions={actions} signoff={signoff} images={images} logoSrc={logoSrc} />
+                <PrintDocument header={header} items={items} actions={actions} signoff={signoff} distributions={distributions} images={images} logoSrc={logoSrc} />
             </div>
         </div>
     );
@@ -597,7 +599,7 @@ export default function PGIForm({ onBack, logoSrc }) {
                         {[["project","Project"],["activity","Activity"],["location","Location"],["client","Client"],["representative","Representative (Auditee)"],["inspectionBy","Inspection By"],["contractor","Contractor"]].map(([key,label])=>(
                             <div key={key} style={{minWidth:0,overflow:"hidden"}}>
                                 <label style={{fontSize:11,fontWeight:600,color:t.textMuted,marginBottom:4,display:"block",textTransform:"uppercase",letterSpacing:"0.5px"}}>{label}</label>
-                                <HeaderSelect value={header[key]} onChange={v=>updateHeader(key,v)} options={HEADER_OPTIONS[key]} placeholder={label} t={t} />
+                                <HeaderSelect value={header[key]} onChange={v=>updateHeader(key,v)} options={HEADER_OPTIONS[key]} placeholder={label} t={t} multiline={key==="activity"} />
                             </div>
                         ))}
                         <div><label style={{fontSize:11,fontWeight:600,color:t.textMuted,marginBottom:4,display:"block",textTransform:"uppercase",letterSpacing:"0.5px"}}>Inspection No.</label><input type="text" value={header.inspectionNo} onChange={e=>updateHeader("inspectionNo",e.target.value)} style={inp} placeholder="e.g. 040" /></div>
@@ -686,7 +688,7 @@ export default function PGIForm({ onBack, logoSrc }) {
                     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
                         <div style={{fontSize:14,fontWeight:700}}>Photo Evidence</div>
                         <label style={{padding:"7px 16px",borderRadius:8,border:"none",backgroundColor:t.accent,color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,display:"inline-flex",alignItems:"center",gap:4,fontFamily:"inherit"}}>
-                            + Upload Photos<input type="file" accept="image/*,.heic,.heif" multiple onChange={handleImageUpload} style={{display:"none"}} />
+                            + Upload Photos<input type="file" accept="image/*" multiple onChange={handleImageUpload} style={{display:"none"}} />
                         </label>
                     </div>
                     {images.length===0&&<div style={{textAlign:"center",padding:20,color:t.textDim,fontSize:13}}>No photos uploaded. Images appear 4 per page in the report.</div>}
@@ -711,7 +713,7 @@ export default function PGIForm({ onBack, logoSrc }) {
 
                 {/* Sign-off */}
                 <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`,overflow:"hidden"}}>
-                    <div style={{fontSize:14,fontWeight:700,marginBottom:14}}>Sign-off</div>
+                    <div style={{fontSize:14,fontWeight:700,marginBottom:14}}>Sign-off & Distribution</div>
 
                     {/* Report Issued By */}
                     <div style={{padding:14,borderRadius:10,border:`1px solid ${t.border}`,backgroundColor:t.bgCardAlt,marginBottom:10}}>
@@ -752,6 +754,7 @@ export default function PGIForm({ onBack, logoSrc }) {
                     </div>
 
                     <div style={{marginTop:12}}><label style={{fontSize:11,fontWeight:600,color:t.textMuted,marginBottom:4,display:"block",textTransform:"uppercase",letterSpacing:"0.5px"}}>Additional Notes (Section 8.0)</label><textarea value={signoff.additionalNotes} onChange={e=>updateSignoff("additionalNotes",e.target.value)} rows={3} style={{...inp,resize:"vertical"}} placeholder="Additional site-specific notes..." /></div>
+                    <div style={{marginTop:12}}><label style={{fontSize:11,fontWeight:600,color:t.textMuted,marginBottom:4,display:"block",textTransform:"uppercase",letterSpacing:"0.5px"}}>Distribution List</label><textarea value={distributions} onChange={e=>setDistributions(e.target.value)} rows={2} style={{...inp,resize:"vertical"}} placeholder="Names / emails for report distribution..." /></div>
                 </div>
 
                 <div style={{display:"flex",gap:10,justifyContent:"center",padding:"14px 0 36px"}}>
