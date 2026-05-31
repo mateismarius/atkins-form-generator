@@ -41,6 +41,7 @@ function ClientReport({data,logoSrc,images}){
     const c={border:"1px solid #c0c0c0",padding:"6px 10px",fontSize:"10px",verticalAlign:"top"};
     const h={...c,backgroundColor:"#1a3a5c",color:"#fff",fontWeight:700};
     const lh={...c,fontWeight:700,backgroundColor:"#e8eef4",color:"#1a3a5c",width:"18%"};
+    const th={...c,fontWeight:700,backgroundColor:"#2e5984",color:"#fff",fontSize:"11px"};
     const teams=[...new Set(data.engineers.map(e=>e.team).filter(Boolean))].sort();
     const teamPhotos={};images.forEach(img=>{const g=img.group||"General";if(!teamPhotos[g])teamPhotos[g]=[];teamPhotos[g].push(img);});
 
@@ -260,8 +261,8 @@ export default function DailyUpdateReport({onBack,logoSrc}){
     };
     const tryPreview=(target)=>{setPendingView(target);setShowWarnings(true);};
 
-    const handlePrint=()=>{const win=window.open("","_blank");win.document.write(`<!DOCTYPE html><html><head><title>Daily Update - ${data.date}</title><style>@media print{body{margin:0}@page{size:A4;margin:8mm}thead{display:table-header-group}}body{font-family:'Segoe UI',Arial,sans-serif;margin:0;padding:0;background:#fff;color:#1a1a1a;-webkit-print-color-adjust:exact;print-color-adjust:exact}</style></head><body>${printRef.current.innerHTML}</body></html>`);win.document.close();setTimeout(()=>win.print(),400);};
-    const handleSave=()=>{const blob=new Blob([JSON.stringify({...data,images},null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=`DailyUpdate_${data.date}.json`;a.click();URL.revokeObjectURL(url);};
+    const handlePrint=()=>{const win=window.open("","_blank");win.document.write(`<!DOCTYPE html><html><head><title>Costain Report - ${data.date}</title><style>@media print{body{margin:0}@page{size:A4;margin:8mm}thead{display:table-header-group}}body{font-family:'Segoe UI',Arial,sans-serif;margin:0;padding:0;background:#fff;color:#1a1a1a;-webkit-print-color-adjust:exact;print-color-adjust:exact}</style></head><body>${printRef.current.innerHTML}</body></html>`);win.document.close();setTimeout(()=>win.print(),400);};
+    const handleSave=()=>{const blob=new Blob([JSON.stringify({...data,images},null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=`CostainReport_${data.date}.json`;a.click();URL.revokeObjectURL(url);};
     const handleLoad=()=>{const input=document.createElement("input");input.type="file";input.accept=".json";input.onchange=e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.images){setImages(d.images);delete d.images;}setData(d);}catch{alert("Invalid JSON");}};reader.readAsText(file);};input.click();};
 
     const inp={width:"100%",padding:"8px 12px",borderRadius:8,border:`1.5px solid ${t.border}`,fontSize:13,outline:"none",boxSizing:"border-box",backgroundColor:t.bgInput,color:t.text,fontFamily:"inherit"};
@@ -288,7 +289,7 @@ export default function DailyUpdateReport({onBack,logoSrc}){
             <div style={{background:t.topBar,padding:"14px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",position:"sticky",top:0,zIndex:10,boxShadow:"0 4px 16px rgba(0,0,0,0.15)",flexWrap:"wrap",gap:10}}>
                 <div style={{display:"flex",alignItems:"center",gap:12}}>
                     {onBack&&<button onClick={onBack} style={{padding:"6px 12px",borderRadius:8,border:"1px solid #475569",backgroundColor:"transparent",color:"#cbd5e1",cursor:"pointer",fontSize:12,fontWeight:600,fontFamily:"inherit"}}>← Menu</button>}
-                    <div><div style={{fontSize:15,fontWeight:800,color:t.topBarText}}>Daily Update Report</div><div style={{fontSize:10,color:"#64748b",marginTop:2}}>Client + Costain — AtkinsRéalis</div></div>
+                    <div><div style={{fontSize:15,fontWeight:800,color:t.topBarText}}>Costain Report</div><div style={{fontSize:10,color:"#64748b",marginTop:2}}>Client + Costain — AtkinsRéalis</div></div>
                 </div>
                 <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
                     <button onClick={handleLoad} style={{padding:"7px 14px",borderRadius:8,border:"1px solid #475569",backgroundColor:"transparent",color:"#cbd5e1",cursor:"pointer",fontSize:12,fontWeight:600,fontFamily:"inherit"}}>Load</button>
@@ -318,12 +319,12 @@ export default function DailyUpdateReport({onBack,logoSrc}){
                         <button onClick={addEng} style={{padding:"7px 16px",borderRadius:8,border:"none",backgroundColor:t.accent,color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,fontFamily:"inherit"}}>+ Add</button>
                     </div>
                     {data.engineers.map((eng,idx)=>(
-                        <div key={eng.id} style={{display:"flex",gap:6,marginBottom:6,alignItems:"flex-end",flexWrap:mobile?"wrap":"nowrap"}}>
-                            <div style={{width:100,flexShrink:0}}>{idx===0&&<label style={{...lbl,fontSize:9}}>Team</label>}<select value={eng.team} onChange={e=>updEng(eng.id,"team",e.target.value)} style={{...inp,appearance:"auto",fontSize:11}}><option value="">—</option>{TEAM_LIST.map(tm=><option key={tm} value={tm}>{tm}</option>)}</select></div>
-                            <div style={{flex:2,minWidth:0}}>{idx===0&&<label style={{...lbl,fontSize:9}}>Name</label>}<input value={eng.name} onChange={e=>updEng(eng.id,"name",e.target.value)} style={inp} placeholder="Full name" /></div>
-                            <div style={{width:100,flexShrink:0}}>{idx===0&&<label style={{...lbl,fontSize:9}}>Position</label>}<select value={eng.position} onChange={e=>updEng(eng.id,"position",e.target.value)} style={{...inp,appearance:"auto"}}>{POSITION_LIST.map(p=><option key={p}>{p}</option>)}</select></div>
-                            <div style={{flex:1,minWidth:0}}>{idx===0&&<label style={{...lbl,fontSize:9}}>Company</label>}<HeaderSelect value={eng.company} onChange={v=>updEng(eng.id,"company",v)} options={COMPANY_LIST} placeholder="Company" t={t} /></div>
-                            <button onClick={()=>removeEng(eng.id)} style={{padding:"8px",border:"none",backgroundColor:"transparent",color:t.accentRed,cursor:"pointer",fontSize:14,flexShrink:0}}>✕</button>
+                        <div key={eng.id} style={{display:mobile?"grid":"flex",gridTemplateColumns:"1fr 1fr",gap:6,marginBottom:mobile?10:6,alignItems:"flex-end",flexWrap:"nowrap",padding:mobile?"10px":0,borderRadius:mobile?8:0,border:mobile?`1px solid ${t.borderLight}`:"none",backgroundColor:mobile?t.bgCardAlt:"transparent"}}>
+                            <div style={{minWidth:0}}>{(idx===0||mobile)&&<label style={{...lbl,fontSize:9}}>Team</label>}<select value={eng.team} onChange={e=>updEng(eng.id,"team",e.target.value)} style={{...inp,appearance:"auto",fontSize:11}}><option value="">—</option>{TEAM_LIST.map(tm=><option key={tm} value={tm}>{tm}</option>)}</select></div>
+                            <div style={{minWidth:0}}>{(idx===0||mobile)&&<label style={{...lbl,fontSize:9}}>Name</label>}<input value={eng.name} onChange={e=>updEng(eng.id,"name",e.target.value)} style={inp} placeholder="Full name" /></div>
+                            <div style={{minWidth:0}}>{(idx===0||mobile)&&<label style={{...lbl,fontSize:9}}>Position</label>}<select value={eng.position} onChange={e=>updEng(eng.id,"position",e.target.value)} style={{...inp,appearance:"auto"}}>{POSITION_LIST.map(p=><option key={p}>{p}</option>)}</select></div>
+                            <div style={{minWidth:0}}>{(idx===0||mobile)&&<label style={{...lbl,fontSize:9}}>Company</label>}<HeaderSelect value={eng.company} onChange={v=>updEng(eng.id,"company",v)} options={COMPANY_LIST} placeholder="Company" t={t} /></div>
+                            <div style={{gridColumn:mobile?"1 / -1":"auto",display:"flex",justifyContent:mobile?"flex-end":"center"}}><button onClick={()=>removeEng(eng.id)} style={{padding:"8px",border:"none",backgroundColor:"transparent",color:t.accentRed,cursor:"pointer",fontSize:14,flexShrink:0}}>✕ {mobile?"Remove":""}</button></div>
                         </div>
                     ))}
                 </div>
@@ -335,12 +336,12 @@ export default function DailyUpdateReport({onBack,logoSrc}){
                         <button onClick={addEquip} style={{padding:"7px 16px",borderRadius:8,border:"none",backgroundColor:t.accent,color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,fontFamily:"inherit"}}>+ Add</button>
                     </div>
                     {data.equipment.map((eq,idx)=>(
-                        <div key={eq.id} style={{display:"flex",gap:8,marginBottom:6,alignItems:"flex-end"}}>
-                            <div style={{flex:2,minWidth:0}}>{idx===0&&<label style={{...lbl,fontSize:9}}>Type</label>}<input value={eq.type} onChange={e=>updEquip(eq.id,"type",e.target.value)} style={inp} placeholder="e.g. Barriers, Hand Tools" /></div>
-                            <div style={{width:90,flexShrink:0}}>{idx===0&&<label style={{...lbl,fontSize:9}}>Checked</label>}<YNToggle value={eq.checked} onChange={v=>updEquip(eq.id,"checked",v)} t={t} /></div>
-                            <div style={{flex:1,minWidth:0}}>{idx===0&&<label style={{...lbl,fontSize:9}}>Company</label>}<HeaderSelect value={eq.company} onChange={v=>updEquip(eq.id,"company",v)} options={COMPANY_LIST} placeholder="Company" t={t} /></div>
-                            <div style={{width:100,flexShrink:0}}>{idx===0&&<label style={{...lbl,fontSize:9}}>Team</label>}<select value={eq.team||""} onChange={e=>updEquip(eq.id,"team",e.target.value)} style={{...inp,appearance:"auto",fontSize:11}}><option value="">All</option>{TEAM_LIST.map(tm=><option key={tm}>{tm}</option>)}</select></div>
-                            <button onClick={()=>removeEquip(eq.id)} style={{padding:"8px",border:"none",backgroundColor:"transparent",color:t.accentRed,cursor:"pointer",fontSize:14,flexShrink:0}}>✕</button>
+                        <div key={eq.id} style={{display:mobile?"grid":"flex",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:mobile?10:6,alignItems:"flex-end",flexWrap:"nowrap",padding:mobile?"10px":0,borderRadius:mobile?8:0,border:mobile?`1px solid ${t.borderLight}`:"none",backgroundColor:mobile?t.bgCardAlt:"transparent"}}>
+                            <div style={{minWidth:0}}>{(idx===0||mobile)&&<label style={{...lbl,fontSize:9}}>Type</label>}<input value={eq.type} onChange={e=>updEquip(eq.id,"type",e.target.value)} style={inp} placeholder="e.g. Barriers" /></div>
+                            <div style={{minWidth:0}}>{(idx===0||mobile)&&<label style={{...lbl,fontSize:9}}>Company</label>}<HeaderSelect value={eq.company} onChange={v=>updEquip(eq.id,"company",v)} options={COMPANY_LIST} placeholder="Company" t={t} /></div>
+                            <div style={{minWidth:0}}>{(idx===0||mobile)&&<label style={{...lbl,fontSize:9}}>Checked</label>}<YNToggle value={eq.checked} onChange={v=>updEquip(eq.id,"checked",v)} t={t} /></div>
+                            <div style={{minWidth:0}}>{(idx===0||mobile)&&<label style={{...lbl,fontSize:9}}>Team</label>}<select value={eq.team||""} onChange={e=>updEquip(eq.id,"team",e.target.value)} style={{...inp,appearance:"auto",fontSize:11}}><option value="">All</option>{TEAM_LIST.map(tm=><option key={tm}>{tm}</option>)}</select></div>
+                            <div style={{gridColumn:mobile?"1 / -1":"auto",display:"flex",justifyContent:mobile?"flex-end":"center"}}><button onClick={()=>removeEquip(eq.id)} style={{padding:"8px",border:"none",backgroundColor:"transparent",color:t.accentRed,cursor:"pointer",fontSize:14}}>✕ {mobile?"Remove":""}</button></div>
                         </div>
                     ))}
                 </div>
@@ -376,9 +377,9 @@ export default function DailyUpdateReport({onBack,logoSrc}){
                     </div>
                     <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"1fr 1fr",gap:8}}>
                         {(data.otherInfo||[]).map(item=>(
-                            <div key={item.id} style={{display:"flex",alignItems:"center",gap:6,padding:"8px 10px",borderRadius:8,border:`1px solid ${t.borderLight}`,backgroundColor:t.bgCardAlt}}>
-                                <input type="text" value={item.label} onChange={e=>updInfoLabel(item.id,e.target.value)} style={{flex:1,minWidth:0,padding:"4px 8px",borderRadius:6,border:`1px solid ${t.border}`,fontSize:12,fontWeight:600,outline:"none",boxSizing:"border-box",backgroundColor:t.bgInput,color:t.text,fontFamily:"inherit"}} placeholder="Label..." />
-                                <select value={item.team||""} onChange={e=>setData(p=>({...p,otherInfo:p.otherInfo.map(x=>x.id===item.id?{...x,team:e.target.value}:x)}))} style={{width:100,padding:"4px 6px",borderRadius:6,border:`1px solid ${t.border}`,fontSize:10,backgroundColor:t.bgInput,color:t.textMuted,fontFamily:"inherit",appearance:"auto",flexShrink:0}}>
+                            <div key={item.id} style={{display:"flex",alignItems:"center",gap:6,padding:"8px 10px",borderRadius:8,border:`1px solid ${t.borderLight}`,backgroundColor:t.bgCardAlt,flexWrap:"wrap"}}>
+                                <input type="text" value={item.label} onChange={e=>updInfoLabel(item.id,e.target.value)} style={{flex:"1 1 100px",minWidth:0,padding:"4px 8px",borderRadius:6,border:`1px solid ${t.border}`,fontSize:12,fontWeight:600,outline:"none",boxSizing:"border-box",backgroundColor:t.bgInput,color:t.text,fontFamily:"inherit"}} placeholder="Label..." />
+                                <select value={item.team||""} onChange={e=>setData(p=>({...p,otherInfo:p.otherInfo.map(x=>x.id===item.id?{...x,team:e.target.value}:x)}))} style={{width:80,padding:"4px 6px",borderRadius:6,border:`1px solid ${t.border}`,fontSize:10,backgroundColor:t.bgInput,color:t.textMuted,fontFamily:"inherit",appearance:"auto",flexShrink:0}}>
                                     <option value="">All</option>
                                     {TEAM_LIST.map(tm=><option key={tm} value={tm}>{tm}</option>)}
                                 </select>

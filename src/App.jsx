@@ -81,7 +81,7 @@ export default function App(){
                         <span style={{fontSize:20,color:"#fff"}}>📊</span>
                     </div>
                     <div style={{flex:1,minWidth:0}}>
-                        <div style={{fontSize:14,fontWeight:700,color:text}}>Daily Update Report</div>
+                        <div style={{fontSize:14,fontWeight:700,color:text}}>Costain Report</div>
                         <div style={{fontSize:11,color:textMuted,marginTop:3}}>Dual output — Client + Costain from one form</div>
                     </div>
                     <span style={{fontSize:16,color:textMuted,flexShrink:0}}>→</span>
