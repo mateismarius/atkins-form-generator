@@ -301,19 +301,19 @@ export default function DailyUpdateReport({onBack,logoSrc}){
 
             <div style={{maxWidth:860,margin:"0 auto",padding:"20px 16px"}}>
                 {/* Project Details */}
-                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`}}>
+                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`,overflow:"hidden"}}>
                     <div style={{fontSize:14,fontWeight:700,marginBottom:14}}>Project Details</div>
-                    <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"1fr 1fr",gap:12}}>
-                        <div><label style={lbl}>Project Name</label><HeaderSelect value={data.projectName} onChange={v=>upd("projectName",v)} options={["T2 Baggage Programme Trance 3 Backbone Phase 2","T2A Security Phase 6 Works","T4 Security Project"]} placeholder="Project name" t={t} /></div>
-                        <div><label style={lbl}>Author</label><HeaderSelect value={data.author} onChange={v=>upd("author",v)} options={AUTHOR_LIST} placeholder="Author" t={t} /></div>
-                        <div><label style={lbl}>Description</label><HeaderSelect value={data.description} onChange={v=>upd("description",v)} options={[]} placeholder="e.g. Fibre migrations – T4, T5" t={t} multiline /></div>
-                        <div><label style={lbl}>Date</label><input type="date" value={data.date} onChange={e=>upd("date",e.target.value)} style={inp} /></div>
-                        <div style={{gridColumn:mobile?"1":"1 / -1"}}><label style={lbl}>Site</label><HeaderSelect value={data.site} onChange={v=>upd("site",v)} options={["T2 Network Backbone","T2A CSA","T4 Airside","T5 Main Terminal"]} placeholder="Site" t={t} /></div>
+                    <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"minmax(0,1fr) minmax(0,1fr)",gap:12}}>
+                        <div style={{minWidth:0,overflow:"hidden"}}><label style={lbl}>Project Name</label><HeaderSelect value={data.projectName} onChange={v=>upd("projectName",v)} options={["T2 Baggage Programme Trance 3 Backbone Phase 2","T2A Security Phase 6 Works","T4 Security Project"]} placeholder="Project name" t={t} /></div>
+                        <div style={{minWidth:0,overflow:"hidden"}}><label style={lbl}>Author</label><HeaderSelect value={data.author} onChange={v=>upd("author",v)} options={AUTHOR_LIST} placeholder="Author" t={t} /></div>
+                        <div style={{minWidth:0,overflow:"hidden"}}><label style={lbl}>Description</label><HeaderSelect value={data.description} onChange={v=>upd("description",v)} options={[]} placeholder="e.g. Fibre migrations – T4, T5" t={t} multiline /></div>
+                        <div style={{minWidth:0,overflow:"hidden"}}><label style={lbl}>Date</label><input type="date" value={data.date} onChange={e=>upd("date",e.target.value)} style={inp} /></div>
+                        <div style={{gridColumn:mobile?"1":"1 / -1",minWidth:0,overflow:"hidden"}}><label style={lbl}>Site</label><HeaderSelect value={data.site} onChange={v=>upd("site",v)} options={["T2 Network Backbone","T2A CSA","T4 Airside","T5 Main Terminal"]} placeholder="Site" t={t} /></div>
                     </div>
                 </div>
 
                 {/* Engineers */}
-                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`}}>
+                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`,overflow:"hidden"}}>
                     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
                         <div style={{fontSize:14,fontWeight:700}}>Engineers on Site</div>
                         <button onClick={addEng} style={{padding:"7px 16px",borderRadius:8,border:"none",backgroundColor:t.accent,color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,fontFamily:"inherit"}}>+ Add</button>
@@ -330,7 +330,7 @@ export default function DailyUpdateReport({onBack,logoSrc}){
                 </div>
 
                 {/* Plant/Equipment */}
-                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`}}>
+                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`,overflow:"hidden"}}>
                     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
                         <div style={{fontSize:14,fontWeight:700}}>Plant / Equipment</div>
                         <button onClick={addEquip} style={{padding:"7px 16px",borderRadius:8,border:"none",backgroundColor:t.accent,color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,fontFamily:"inherit"}}>+ Add</button>
@@ -347,7 +347,7 @@ export default function DailyUpdateReport({onBack,logoSrc}){
                 </div>
 
                 {/* Activity Description per Team */}
-                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`}}>
+                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`,overflow:"hidden"}}>
                     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
                         <div style={{fontSize:14,fontWeight:700}}>Activity Description</div>
                         <button onClick={addActivity} style={{padding:"7px 16px",borderRadius:8,border:"none",backgroundColor:t.accent,color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,fontFamily:"inherit"}}>+ Add Team Activity</button>
@@ -370,7 +370,7 @@ export default function DailyUpdateReport({onBack,logoSrc}){
                 </div>
 
                 {/* Other Info */}
-                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`}}>
+                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`,overflow:"hidden"}}>
                     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
                         <div style={{fontSize:14,fontWeight:700}}>Other Info</div>
                         <button onClick={addInfo} style={{padding:"7px 16px",borderRadius:8,border:"none",backgroundColor:t.accent,color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,fontFamily:"inherit"}}>+ Add</button>
@@ -391,7 +391,7 @@ export default function DailyUpdateReport({onBack,logoSrc}){
                 </div>
 
                 {/* Issues */}
-                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`}}>
+                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`,overflow:"hidden"}}>
                     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
                         <div style={{fontSize:14,fontWeight:700}}>Issues / Requests / Delays</div>
                         <button onClick={addIssue} style={{padding:"7px 16px",borderRadius:8,border:"none",backgroundColor:t.accent,color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,fontFamily:"inherit"}}>+ Add</button>
@@ -410,14 +410,14 @@ export default function DailyUpdateReport({onBack,logoSrc}){
                 </div>
 
                 {/* Costain extras */}
-                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`}}>
+                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`,overflow:"hidden"}}>
                     <div style={{fontSize:14,fontWeight:700,marginBottom:10}}>Costain Report Extras</div>
                     <div style={{fontSize:11,color:t.textDim,marginBottom:10}}>Recipient name for the Costain version greeting.</div>
                     <div><label style={lbl}>Recipient Name</label><input value={data.costainRecipient} onChange={e=>upd("costainRecipient",e.target.value)} style={inp} placeholder="e.g. Andrei" /></div>
                 </div>
 
                 {/* Photos */}
-                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`}}>
+                <div style={{backgroundColor:t.bgCard,borderRadius:12,padding:20,marginBottom:14,border:`1px solid ${t.border}`,overflow:"hidden"}}>
                     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
                         <div style={{fontSize:14,fontWeight:700}}>Photos</div>
                         <label style={{padding:"7px 16px",borderRadius:8,border:"none",backgroundColor:t.accent,color:"#fff",cursor:"pointer",fontSize:12,fontWeight:600,display:"inline-flex",alignItems:"center",gap:4,fontFamily:"inherit"}}>+ Upload<input type="file" accept="image/*,.heic,.heif" multiple onChange={handleImageUpload} style={{display:"none"}} /></label>
