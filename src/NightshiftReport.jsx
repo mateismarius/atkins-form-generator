@@ -27,7 +27,7 @@ function HeaderSelect({value,onChange,options,placeholder,t}){
         </div>
     );
 }
-const SUPPLIER_LIST=["AtkinsRéalis","Computacenter","Sword Services","Maber Construction Ltd","Contour","Projective Consulting", "STS", "Mitie"];
+const SUPPLIER_LIST=["AtkinsRéalis","Computacenter","Sword Services","Maber","Contour","Projective Consulting", "STS", "Mitie"];
 const AUTHOR_LIST=["Peter Murphy","Mat Godwin","Fred Tebbenham","Marius Matei", "Jacob McCalla"];
 const AREA_LIST=[];
 
@@ -123,25 +123,26 @@ function PrintReport({data,logoSrc,images}){
                 </tbody>
             </table>
 
-            {/* Work Entries */}
-            {data.workEntries.length>0&&(
-                <div style={{border:"1px solid #333",borderRadius:4,marginBottom:14,overflow:"hidden"}}>
-                    <div style={{backgroundColor:"#1a3a5c",color:"#fff",fontWeight:700,padding:"5px 8px",fontSize:"11px"}}>Works Summary</div>
-                    <div style={{padding:"8px 10px"}}>
-                        {Object.entries(data.workEntries.reduce((acc,e)=>{const k=e.supplier||"Other";if(!acc[k])acc[k]=[];acc[k].push(e);return acc;},{})).map(([supplier,entries])=>(
-                            <div key={supplier} style={{marginBottom:8,pageBreakInside:"avoid"}}>
-                                <div style={{fontWeight:700,fontSize:"11px",marginBottom:3,borderBottom:"1px solid #999",paddingBottom:2}}>{supplier}</div>
-                                {entries.map((e,i)=>(
-                                    <div key={i} style={{marginBottom:6,paddingLeft:12,fontSize:"10px",pageBreakInside:"avoid"}}>
-                                        <div style={{fontWeight:700,marginBottom:2}}>{e.area}</div>
-                                        <div style={{whiteSpace:"pre-wrap",paddingLeft:8}}>{e.details}</div>
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
+            {/* Work Entries as table — thead repeats on page breaks */}
+            {data.workEntries.length>0&&(()=>{
+                const grouped=Object.entries(data.workEntries.reduce((acc,e)=>{const k=e.supplier||"Other";if(!acc[k])acc[k]=[];acc[k].push(e);return acc;},{}));
+                return (
+                    <table style={{width:"100%",borderCollapse:"collapse",marginBottom:14,border:"1px solid #333"}}>
+                        <thead><tr><th style={{backgroundColor:"#1a3a5c",color:"#fff",fontWeight:700,padding:"5px 8px",fontSize:"11px",textAlign:"left",border:"1px solid #333"}}>Works Summary</th></tr></thead>
+                        <tbody>{grouped.map(([supplier,entries])=>(
+                            entries.map((e,i)=>(
+                                <tr key={`${supplier}-${i}`}>
+                                    <td style={{borderBottom:i===entries.length-1?"2px solid #999":"1px solid #eee",padding:"6px 10px",fontSize:"10px",verticalAlign:"top",...(i===0?{borderTop:"1px solid #999"}:{})}}>
+                                        {i===0&&<div style={{fontWeight:700,fontSize:"11px",marginBottom:4,paddingBottom:3,borderBottom:"1px solid #ccc"}}>{supplier}</div>}
+                                        <div style={{paddingLeft:8}}><div style={{fontWeight:700,marginBottom:2}}>{e.area}</div>
+                                            <div style={{whiteSpace:"pre-wrap",overflowWrap:"break-word",wordBreak:"break-word"}}>{e.details}</div></div>
+                                    </td>
+                                </tr>
+                            ))
+                        ))}</tbody>
+                    </table>
+                );
+            })()}
 
             <div style={{fontSize:"8px",color:"#888",textAlign:"center",marginTop:16}}>AtkinsRéalis - Baseline / Référence</div>
 
@@ -214,8 +215,8 @@ export default function NightshiftReport({onBack,logoSrc}){
     const updateImageGroup=(id,group)=>setImages(p=>p.map(img=>img.id===id?{...img,group}:img));
     const moveImage=(idx,dir)=>setImages(p=>{const a=[...p];const n=idx+dir;if(n<0||n>=a.length)return a;[a[idx],a[n]]=[a[n],a[idx]];return a;});
 
-    const handlePrint=()=>{const win=window.open("","_blank");win.document.write(`<!DOCTYPE html><html><head><title>Nightshift Report - ${data.date}</title><style>@media print{body{margin:0}@page{size:A4;margin:10mm}}body{font-family:'Segoe UI',Arial,sans-serif;margin:0;padding:0;background:#fff;color:#1a1a1a;-webkit-print-color-adjust:exact;print-color-adjust:exact}</style></head><body>${printRef.current.innerHTML}</body></html>`);win.document.close();setTimeout(()=>win.print(),400);};
-    const handleSave=()=>{const blob=new Blob([JSON.stringify({...data,images},null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=`NightReport_${data.date||"draft"}.json`;a.click();URL.revokeObjectURL(url);};
+    const handlePrint=()=>{const title=`${data.projectTitle||"Nightshift Report"} - ${data.date}`;const win=window.open("","_blank");win.document.write(`<!DOCTYPE html><html><head><title>${title}</title><style>@page{size:A4;margin:0}body{font-family:'Segoe UI',Arial,sans-serif;margin:0;padding:0;background:#fff;color:#1a1a1a;-webkit-print-color-adjust:exact;print-color-adjust:exact}*{overflow-wrap:break-word;word-break:break-word}thead{display:table-header-group}tfoot{display:table-footer-group}.page-wrap{width:100%}.page-wrap>thead td{height:10mm}.page-wrap>tfoot td{height:10mm}.page-content{padding:0 10mm}</style></head><body><table class="page-wrap"><thead><tr><td></td></tr></thead><tfoot><tr><td style="padding:0 10mm"><div style="border-top:1px solid #b0b8c4"></div></td></tr></tfoot><tbody><tr><td class="page-content">${printRef.current.innerHTML}</td></tr></tbody></table></body></html>`);win.document.close();setTimeout(()=>win.print(),400);};
+    const handleSave=()=>{const blob=new Blob([JSON.stringify({...data,images},null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=`NightReport_${(data.projectTitle||"").replace(/\s+/g,"_")}_${data.date||"draft"}.json`;a.click();URL.revokeObjectURL(url);};
     const handleLoad=()=>{const input=document.createElement("input");input.type="file";input.accept=".json";input.onchange=e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.images){setImages(d.images);delete d.images;}setData(d);}catch{alert("Invalid JSON file");}};reader.readAsText(file);};input.click();};
 
     const inp={width:"100%",padding:"8px 12px",borderRadius:8,border:`1.5px solid ${t.border}`,fontSize:13,outline:"none",boxSizing:"border-box",backgroundColor:t.bgInput,color:t.text,fontFamily:"inherit"};
