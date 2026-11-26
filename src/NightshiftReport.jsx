@@ -45,6 +45,17 @@ const defaultReport={
 const defaultWorkEntry=()=>({id:Date.now(),area:"",supplier:"",details:""});
 
 // ─── Yes/No Toggle ───
+// function YNToggle({value,onChange,t}){
+//     return (
+//         <div style={{display:"flex",gap:4}}>
+//             {["Yes","No"].map(opt=>(
+//                 <button key={opt} onClick={()=>onChange(value===opt?"":opt)}
+//                         style={{padding:"6px 16px",borderRadius:6,fontSize:12,cursor:"pointer",fontFamily:"inherit",border:value===opt?"2px solid transparent":`1px solid ${t.border}`,fontWeight:value===opt?700:400,backgroundColor:value===opt?(opt==="Yes"?t.statusY:t.statusN):t.bgInput,color:value===opt?"#fff":t.text}}>{opt}</button>
+//             ))}
+//         </div>
+//     );
+// }
+
 function YNToggle({value,onChange,t}){
     return (
         <div style={{display:"flex",gap:4}}>
