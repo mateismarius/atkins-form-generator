@@ -28,7 +28,7 @@ function HeaderSelect({value,onChange,options,placeholder,t}){
     );
 }
 const SUPPLIER_LIST=["AtkinsRéalis","Computacenter","Sword Services","Maber","Contour","Projective Consulting", "STS", "Mitie"];
-const AUTHOR_LIST=["Peter Murphy","Mat Godwin","Fred Tebbenham","Marius Matei", "Jacob McCalla"];
+const AUTHOR_LIST=["Peter Murphy","Mat Godwin","Fred Tebbenham","Marius Matei"];
 const AREA_LIST=[];
 
 const defaultReport={
